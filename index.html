@@ -63,12 +63,14 @@
     align-items: center;
   }
 
-  .lightbox img {
-    max-width: 90%;
-    max-height: 90%;
-    border: 3px solid white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  }
+.lightbox img {
+  max-width: 90vw;   /* 画面の幅の90%まで */
+  max-height: 90vh;  /* 画面の高さの90%まで */
+  width: auto;
+  height: auto;
+  border: 3px solid white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
 
   .lightbox:target {
     display: flex;

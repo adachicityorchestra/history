@@ -3515,8 +3515,42 @@
 </table>
 </div>
     </div>
+
+<!-- 並べ替えボタン -->
+<div style="text-align:center; margin: 1rem;">
+  <button id="sortToggle">降順で表示</button>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const container = document.body; // concertの親要素
+    const concerts = Array.from(document.querySelectorAll(".concert"));
+    let isAsc = true; // 最初は昇順（古い順）
+
+    const button = document.getElementById("sortToggle");
+
+    function renderConcerts(list) {
+      list.forEach(concert => container.appendChild(concert));
+    }
+
+    button.addEventListener("click", function() {
+      isAsc = !isAsc;
+      const sorted = [...concerts];
+      if (!isAsc) {
+        sorted.reverse();
+        button.textContent = "昇順で表示";
+      } else {
+        button.textContent = "降順で表示";
+      }
+      renderConcerts(sorted);
+    });
+  });
+</script>
 </body>
+
+    
 </html>
+
 
 
 

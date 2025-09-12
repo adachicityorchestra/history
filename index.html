@@ -88,6 +88,7 @@
 <body>
 <h1>足立シティオーケストラ 過去の演奏会</h1>
 <div class="notice">※このページは現在整備中です。情報は順次追加予定です。</div>
+<div id="concerts">
 <div class="concert">
 <h2>第２回定期演奏会</h2>
 <div class="details">
@@ -3518,38 +3519,44 @@
 
 <!-- 並べ替えボタン -->
 <div style="text-align:center; margin: 1rem;">
-  <button id="sortToggle">降順で表示</button>
+  <button id="sortToggle">昇順で表示</button>
 </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    const container = document.body; // concertの親要素
-    const concerts = Array.from(document.querySelectorAll(".concert"));
-    let isAsc = true; // 最初は昇順（古い順）
+    const container = document.getElementById("concerts"); // ラッパー要素
+    const concerts = Array.from(container.querySelectorAll(".concert"));
+    let isAsc = false; // 初期は降順
 
     const button = document.getElementById("sortToggle");
 
     function renderConcerts(list) {
+      // いったんクリアしてから並べ替えを追加
+      container.innerHTML = "";
       list.forEach(concert => container.appendChild(concert));
     }
 
+    // 初期表示を降順にする
+    renderConcerts([...concerts].reverse());
+
     button.addEventListener("click", function() {
       isAsc = !isAsc;
-      const sorted = [...concerts];
-      if (!isAsc) {
-        sorted.reverse();
-        button.textContent = "昇順で表示";
-      } else {
+      if (isAsc) {
         button.textContent = "降順で表示";
+        renderConcerts([...concerts]);
+      } else {
+        button.textContent = "昇順で表示";
+        renderConcerts([...concerts].reverse());
       }
-      renderConcerts(sorted);
     });
   });
 </script>
+
 </body>
 
     
 </html>
+
 
 
 

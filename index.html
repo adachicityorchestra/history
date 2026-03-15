@@ -1,3621 +1,1761 @@
-
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>足立シティオーケストラ 過去の演奏会一覧</title>
+<title>足立シティオーケストラ 過去の演奏会</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
-    body {
-      font-family: sans-serif;
-      background: #f8f8f8;
-      padding: 1rem;
-      margin: 0;
-    }
-    h1 {
-      text-align: center;
-      font-size: 1.8rem;
-    }
-    .notice {
-      text-align: center;
-      background: #fff3cd;
-      padding: 0.8rem;
-      margin: 1rem 0;
-      border-radius: 5px;
-    }
-    .concert {
-      background: white;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-    .concert h2 {
-      font-size: 1.3rem;
-      margin-top: 0;
-    }
-    .details {
-      font-size: 1rem;
-    }
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-    @media (min-width: 768px) {
-      body {
-        padding: 2rem 10%;
-      }
-    }
-  </style>
-<style>
-  .lightbox {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    padding: 1rem;
-    background: rgba(0, 0, 0, 0.8);
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --surface-2: #f0eeea;
+    --border: #e2dfd8;
+    --text-primary: #1a1916;
+    --text-secondary: #5c5a55;
+    --text-muted: #9c9a94;
+    --accent: #1f4e79;
+    --accent-light: #e8f0f8;
+    --accent-mid: #2d6fad;
+    --tag-bg: #eef4fa;
+    --tag-text: #1f4e79;
+    --cancelled-bg: #fff4f4;
+    --cancelled-border: #fcd5d5;
+    --cancelled-text: #c0392b;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.05);
+    --radius: 12px;
+    --radius-sm: 6px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.7;
+  }
+
+  /* ===== HEADER ===== */
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    color: white;
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    color: var(--text-primary);
+  }
+  .logo-sub {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 24px 40px;
+  }
+  .hero-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    margin-bottom: 12px;
+  }
+  .hero-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+  .hero-notice {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fffbe6;
+    border: 1px solid #f5e27a;
+    color: #7d6a00;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 100px;
+  }
+  .hero-notice::before {
+    content: "ℹ";
+    font-size: 12px;
+  }
+
+  /* ===== CONTROLS ===== */
+  .controls {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px 24px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .count-badge {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-right: auto;
+  }
+  .count-badge strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Noto Sans JP', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+  }
+  .btn:hover {
+    background: var(--surface-2);
+    border-color: #c8c4bc;
+  }
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .btn-primary:hover {
+    background: #1a4269;
+    border-color: #1a4269;
+  }
+
+  /* ===== TIMELINE LIST ===== */
+  .concert-list {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px 24px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* ===== YEAR DIVIDER ===== */
+  .year-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0 4px;
+  }
+  .year-label {
+    font-family: 'DM Serif Display', serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .year-line {
+    height: 1px;
+    background: var(--border);
+    flex: 1;
+  }
+
+  /* ===== CONCERT CARD ===== */
+  .concert-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    box-shadow: var(--shadow-sm);
+  }
+  .concert-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: #ccc9c0;
+  }
+  .concert-card.cancelled {
+    background: var(--cancelled-bg);
+    border-color: var(--cancelled-border);
+  }
+
+  .card-header {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: inherit;
+    transition: background 0.15s ease;
+  }
+  .card-header:hover { background: rgba(0,0,0,0.015); }
+
+  .card-date-col {
+    flex-shrink: 0;
+    width: 64px;
+    text-align: center;
+  }
+  .card-year {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .card-month-day {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .cancelled .card-month-day { color: var(--cancelled-text); }
+
+  .card-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+
+  .card-main {
+    flex: 1;
+    min-width: 0;
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.4;
+    margin-bottom: 4px;
+    letter-spacing: 0.01em;
+  }
+  .cancelled .card-title { color: var(--text-secondary); }
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     align-items: center;
   }
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .meta-item svg { opacity: 0.6; }
 
-.lightbox img {
-  max-width: 90vw;   /* 画面の幅の90%まで */
-  max-height: 90vh;  /* 画面の高さの90%まで */
-  width: auto;
-  height: auto;
-  border: 3px solid white;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .tag-special {
+    background: #e8f4ec;
+    color: #1e6e3a;
+  }
+  .tag-cancelled {
+    background: var(--cancelled-bg);
+    color: var(--cancelled-text);
+    border: 1px solid var(--cancelled-border);
+  }
+  .tag-chamber {
+    background: #f3eff8;
+    color: #5b35a0;
+  }
 
-  .lightbox:target {
+  .card-chevron {
+    flex-shrink: 0;
+    color: var(--text-muted);
+    transition: transform 0.25s ease;
+  }
+  .concert-card.open .card-chevron { transform: rotate(180deg); }
+
+  /* ===== CARD BODY (accordion) ===== */
+  .card-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .concert-card.open .card-body { max-height: 2000px; }
+
+  .card-body-inner {
+    padding: 0 24px 24px 104px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 16px;
+    margin-bottom: 20px;
+    font-size: 13.5px;
+  }
+  .detail-label {
+    color: var(--text-muted);
+    font-weight: 400;
+    white-space: nowrap;
+    padding-top: 1px;
+  }
+  .detail-value {
+    color: var(--text-primary);
+  }
+
+  .program-section {
+    margin-top: 4px;
+  }
+  .program-heading {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .program-list {
+    list-style: none;
     display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .program-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 13.5px;
+    color: var(--text-primary);
+    padding: 6px 12px;
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+  }
+  .program-item::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .program-item.encore {
+    background: var(--accent-light);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .program-item.encore::before { background: var(--accent-mid); opacity: 0.5; }
+
+  .encore-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    margin: 12px 0 6px;
   }
 
-  .thumbnail {
+  /* ===== POSTER IMAGES ===== */
+  .poster-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .poster-heading {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .poster-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .poster-thumb {
+    position: relative;
+    flex: 0 0 auto;
+    width: 100px;
+    height: 142px; /* A4比率 */
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
     cursor: pointer;
-    transition: 0.3s;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: var(--shadow-sm);
+  }
+  .poster-thumb:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-md);
+  }
+  .poster-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* プレースホルダー（画像なし） */
+  .poster-placeholder {
+    width: 100px;
+    height: 142px;
+    border-radius: 6px;
+    border: 1.5px dashed var(--border);
+    background: var(--surface-2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: var(--text-muted);
+    font-size: 10px;
+    letter-spacing: 0.03em;
+    text-align: center;
+    padding: 8px;
+    flex: 0 0 auto;
+  }
+  .poster-placeholder svg { opacity: 0.4; }
+
+  /* ===== LIGHTBOX ===== */
+  .lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(10, 10, 10, 0.88);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    cursor: zoom-out;
+  }
+  .lightbox-overlay.active { display: flex; }
+  .lightbox-overlay img {
+    max-width: min(90vw, 600px);
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    cursor: default;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: white;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,0.22); }
+
+  /* ===== EMPTY ===== */
+  .empty-state {
+    text-align: center;
+    padding: 64px 24px;
+    color: var(--text-muted);
+    font-size: 14px;
   }
 
-  .thumbnail:hover {
-    opacity: 0.8;
+  /* ===== FOOTER ===== */
+  .site-footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
   }
-</style></head>
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .card-body-inner { padding-left: 16px; padding-right: 16px; }
+    .card-date-col { width: 52px; }
+    .card-month-day { font-size: 18px; }
+    .card-title { font-size: 14px; }
+    .detail-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .detail-grid > * { font-size: 13px; }
+    /* label + value を横並びにしてモバイルでも読みやすく */
+    .detail-label {
+      display: inline;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .detail-label::after { content: "　"; }
+    .detail-value { display: inline; }
+    /* 各行ごとに改行 */
+    .detail-row { display: block; margin-bottom: 4px; }
+    .program-item { font-size: 12.5px; padding: 5px 10px; }
+    .controls { padding: 14px 16px 0; gap: 8px; }
+    .btn { padding: 7px 12px; font-size: 12px; }
+    .concert-list { padding: 12px 12px 48px; gap: 6px; }
+    .hero { padding: 28px 16px 24px; }
+    .header-inner { padding: 0 16px; height: 56px; }
+    .logo-mark { width: 32px; height: 32px; font-size: 15px; }
+    .logo-text { font-size: 13px; }
+    /* ポスターも少し小さく */
+    .poster-thumb, .poster-placeholder { width: 84px; height: 119px; }
+    .card-header { padding: 14px 16px; gap: 12px; }
+    .meta-item { font-size: 11px; }
+    .venue-text {
+      max-width: 160px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-block;
+    }
+  }
+  @media (max-width: 380px) {
+    .card-date-col { width: 44px; }
+    .card-month-day { font-size: 16px; }
+    .card-title { font-size: 13px; }
+    .poster-thumb, .poster-placeholder { width: 72px; height: 102px; }
+  }
+</style>
+</head>
 <body>
-<h1>足立シティオーケストラ 過去の演奏会</h1>
-<div class="notice">※このページは現在整備中です。情報は順次追加予定です。</div>
-<div id="concerts">
-<div class="concert">
-<h2>第２回定期演奏会</h2>
-<div class="details">
-<p><strong>１９８９年９月１５日 </strong></p>
-<p>第２回定期演奏会</p>
-<p>足立文化会館</p>
-<p>指揮：汐澤安彦、新井久雄</p>
-<ul>
-<li>歌劇「シチリア島の夕べの祈り」序曲（ヴェルディ）</li>
-<li>皇帝円舞曲（Ｊ．シュトラウスII世）</li>
-<li>交響曲第１番（ベートーヴェン）</li>
-<li>「カルメン」第１組曲（ビゼー）
-            <h5>アンコール</h5>
-</li>
-<li>雷鳴と電光（Ｊ．シュトラウスII世）</li>
-</ul>
-</div>
-</div>
-<div class="concert">
-<h2>第３回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９０年３月２１日
- </strong>
-</p>
-<p>
- 第３回定期演奏会
-</p>
-<p>
- 足立文化会館
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   「ファウストの劫罰」よりハンガリー行進曲（ベルリオーズ）
-   <li>
-    管弦楽組曲第３番よりアリア（バッハ）
-    <li>
-     シンコペイテッド クロック（アンダーソン）
-     <li>
-      プリンク プレンク プランク（アンダーソン）
-      <li>
-       トランペット吹きの休日（アンダーソン）
-       <li>
-        交響曲第９番「新世界より」（ドヴォルザーク）
-        <h5>
-         アンコール
-        </h5>
-<li>
-         ハンガリー舞曲第５番（ブラームス）
-        </li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第４回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９０年８月５日
- </strong>
-</p>
-<p>
- 第４回定期演奏会
-</p>
-<p>
- 足立文化会館
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   歌劇「ローエングリン」より第３幕への前奏曲（ワーグナー）
-   <li>
-    ペルシャの市場（ケテルビー）
-    <li>
-     かじ屋のポルカ（ヨゼフ
-     <li>
-      シュトラウス）
-      <li>
-       美しき青きドナウ（Ｊ．シュトラウス）
-       <li>
-        交響曲第５番「運命」（ベートーヴェン）
-        <h5>
-         アンコール
-        </h5>
-<li>
-         歌劇「カバレリア
-         <li>
-          ルスティカーナ」より間奏曲（マスカーニ）
-         </li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第５回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９０年１２月２日
- </strong>
-</p>
-<p>
- 第５回定期演奏会
-</p>
-<p>
- 足立文化会館
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   歌劇「フィガロの結婚」序曲（モーツァルト）
-   <li>
-    交響曲第８番「未完成」（シューベルト）
-    <li>
-     歌劇「マドンナの宝石」より間奏曲（フェラーリ）
-     <li>
-      歌劇「ファウスト」より舞踏組曲（グノー）
-      <h5>
-       アンコール
-      </h5>
-<li>
-       「白鳥の湖」より情景（チャイコフスキー）
-      </li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第６回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９１年３月３１日
- </strong>
-</p>
-<p>
- 第６回定期演奏会
-</p>
-<p>
- 足立文化会館
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ヴァイオリン：漆原啓子
- <ul>
-<li>
-   歌劇「セヴィリアの理髪師」序曲
-   <li>
-    ヴァイオリン協奏曲（メンデルスゾーン）
-    <li>
-     交響曲第８番（ドヴォルザーク）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      スラヴ舞曲OP.46-8（ドヴォルザーク）
-      <li>
-       ソルヴェーグの歌（グリーグ）
-      </li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第７回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９１年９月８日
- </strong>
-</p>
-<p>
- 第７回定期演奏会
-</p>
-<p>
- 足立文化会館
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   楽劇「ニュルンベルグのマイスタージンガー」前奏曲（ワーグナー）
-   <li>
-    「アルルの女」第１組曲よりアダ―ジェット（ビゼー）
-    <li>
-     組曲「水上の音楽」（ヘンデル）
-     <li>
-      交響曲第３９番（モーツァルト）
-      <li>
-       交響詩「フィンランディア」（シベリウス）
-       <h5>
-        アンコール
-       </h5>
-<li>
-        ハンガリー舞曲第５番、６番（ブラームス）※第７回定期演奏会より「足立シティオーケストラ」と団名を改称
-       </li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第８回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９２年１月１９日
- </strong>
-</p>
-<p>
- 第８回定期演奏会
-</p>
-<p>
- 足立文化会館
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- トランペット：津堅直弘
- <ul>
-<li>
-   歌劇「アルジェのイタリア女」序曲（ロッシーニ）
-   <li>
-    交響曲第３５番「ハフナー」（モーツァルト）
-    <li>
-     トランペット協奏曲（ハイドン）
-     <li>
-      トランペット吹きの子守歌（アンダーソン）
-      <li>
-       歌劇「天国と地獄」序曲（オッフェンバック）
-       <h5>
-        アンコール
-       </h5>
-<li>
-        美しき青きドナウ（Ｊ．シュトラウスII世）
-        <li>
-         ラデッキ―行進曲（Ｊ．シュトラウス）
-        </li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第９回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９２年１０月２５日
- </strong>
-</p>
-<p>
- 第９回定期演奏会
-</p>
-<p>
- 足立区スイムスポーツセンター体育館
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- マリンバ：藤井むつ子
- <ul>
-<li>
-   歌劇「ローエングリン」第３幕への前奏曲（ワーグナー）
-   <li>
-    交響曲第６番「田園」（ベートーヴェン）
-    <li>
-     火華（朝吹英一）
-     <li>
-      チゴイエルワイゼン（サラサーテ）
-      <li>
-       組曲「くるみ割り人形」より行進曲、トレパーク、あし笛の踊り、花のワルツ
-（チャイコフスキー）
-       <h5>
-        アンコール
-       </h5>
-<li>
-        白鳥の湖より情景（チャイコフスキー）
-        <li>
-         バレエ「ガイ―ヌ」より剣の舞（ハチャトゥリアン）
-         <li>
-          組曲「道化師」よりギャロップ（カバレフスキー）
-         </li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第１０回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９３年３月２８日
- </strong>
-</p>
-<p>
- 第１０回定期演奏会
-</p>
-<p>
- 東京文化会館大ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ヴァイオリン：漆原朝子
- <ul>
-<li>
-   楽劇「ニュルンベルグのマイスタージンガー」第１幕前奏曲
-   <li>
-    ヴァイオリン協奏曲（ベートーヴェン）
-    <li>
-     交響曲第５番「運命」（ベートーヴェン）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      組曲「くるみ割り人形」より花のワルツ（チャイコフスキー）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第１１回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９３年９月１５日
- </strong>
-</p>
-<p>
- 第１１回定期演奏会
-</p>
-<p>
- 足立区スイムスポーツセンター体育館
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ホルン：松崎裕
- <ul>
-<li>
-   歌劇「ルスランとリュドミラ」序曲（グリンカ）
-   <li>
-    アルルの女第１組曲（ビゼー）
-    <li>
-     ホルン協奏曲第３番（モーツァルト）
-     <li>
-      バレエ「眠りの森の美女」よりワルツ（チャイコフスキー）
-      <li>
-       交響詩「フィンランディア」（シベリウス）
-       <h5>
-        アンコール
-       </h5>
-<li>
-        スラヴ舞曲OP.46-8（ドヴォルザーク）
-        <li>
-         歌劇「売られた花嫁」より道化師の踊り（スメタナ）
-        </li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第１回柳原音楽祭</h2>
-<div class="details">
-<p>
-<strong>
-  １９９３年１０月１７日
- </strong>
-</p>
-<p>
- 第１回柳原音楽祭
-</p>
-<p>
- 足立区立柳原小学校体育館
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   わがまち足立（團伊玖磨）
-   <li>
-    歌劇「ルスランとリュドミラ」序曲
-    <li>
-     交響曲第５番「運命」より第１楽章（ベートーヴェン）
-     <li>
-      楽器紹介
-      <li>
-       ホルン協奏曲第３番より第１楽章（モーツァルト）
-       <li>
-        ハンガリー舞曲第５番（ブラームス）
-        <li>
-         スラヴ舞曲OP.46-8（ドヴォルザーク）
-         <h5>
-          アンコール
-         </h5>
-<li>
-          「白鳥の湖」より情景（チャイコフスキー）
-          <li>
-           ラデッキ―行進曲（J.シュトラウス）
-          </li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>ギャラクシティオープン記念・「わが街に」制作記念コンサート</h2>
-<div class="details">
-<p>
-<strong>
-  １９９４年３月２７日
- </strong>
-</p>
-<p>
- ＜ギャラクシティ＞オープン記念・「わが街に」制作記念コンサート
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦、團伊玖磨
-</p>
-<p>
- ピアノ：仲道郁代、合唱：足立区民合唱団、合唱団あしだち、東京足立少年少女合唱団
- <ul>
-<li>
-   楽劇「ニュルンベルクのマイスタージンガー」第１幕前奏曲（ワーグナー）
-   <li>
-    ピアノ協奏曲（グリーグ）
-    <li>
-     管弦楽と合唱のための組曲「わが街に」（團伊玖磨）
-     <li>
-      華の街（團伊玖磨）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第１２回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９４年９月１５日
- </strong>
-</p>
-<p>
- 第１２回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ヴァイオリン：久保陽子
- <ul>
-<li>
-   歌劇「魔笛」序曲（モーツァルト）
-   <li>
-    ヴァイオリン協奏曲（ブルッフ）
-    <li>
-     交響曲第７番（ベートーヴェン）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      アリア（バッハ）
-      <li>
-       歌劇「ローエングリン」第３幕前奏曲（ワーグナー）
-      </li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第１３回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９５年２月２６日
- </strong>
-</p>
-<p>
- 第１３回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- フルート：中野真理
- <ul>
-<li>
-   歌劇「フィガロの結婚」序曲（モーツァルト）
-   <li>
-    フルート協奏曲第２番（モーツァルト）
-    <li>
-     交響曲第８番（ドヴォルザーク）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      スラヴ舞曲OP.46-8（ドヴォルザーク）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第１４回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９５年９月３日
- </strong>
-</p>
-<p>
- 第１４回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- チェロ：長谷川陽子
- <ul>
-<li>
-   「アルジェのイタリア女」序曲（ロッシーニ）
-   <li>
-    チェロ協奏曲（ハイドン）
-    <li>
-     交響曲第５番（チャイコフスキー）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      金と銀（レハール）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第１５回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９６年３月２日
- </strong>
-</p>
-<p>
- 第１５回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ピアノ：北川暁子
- <ul>
-<li>
-   大学祝典序曲（ブラームス）
-   <li>
-    ピアノ協奏曲第２３番（モーツァルト）
-    <li>
-     交響曲第３番「英雄」（ベートーヴェン）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      「白鳥の湖」よりワルツ（チャイコフスキー）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第１６回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９６年９月２８日
- </strong>
-</p>
-<p>
- 第１６回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- クラリネット：山本正治
- <ul>
-<li>
-   「威風堂々」第１番（エルガー）
-   <li>
-    クラリネット小協奏曲（ウェーバー）
-    <li>
-     交響曲第１番（ブラームス）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      不明
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第１７回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９７年２月２日
- </strong>
-</p>
-<p>
- 第１７回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ヴァイオリン：水野佐知香
- <ul>
-<li>
-   歌劇「セヴィリアの理髪師」序曲（ロッシーニ）
-   <li>
-    ヴァイオリン協奏曲（メンデルスゾーン）
-    <li>
-     交響曲第９番「新世界より」（ドヴォルザーク）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      ハンガリー舞曲第５番
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第１８回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９７年９月１４日
- </strong>
-</p>
-<p>
- 第１８回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ヴァイオリン：豊嶋泰嗣、ヴィオラ：上田敏子
- <ul>
-<li>
-   「ローマの謝肉祭」序曲（ベルリオーズ）
-   <li>
-    ヴァイオリンとヴィオラのための協奏交響曲（モーツァルト）
-    <li>
-     交響曲第４番（チャイコフスキー）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      「眠りの森の美女」よりワルツ（チャイコフスキー）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第１９回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９８年３月１日
- </strong>
-</p>
-<p>
- 第１９回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ピアノ：長尾洋史
- <ul>
-<li>
-   ピアノ協奏曲第５番「皇帝」（ベートーヴェン）
-   <li>
-    交響曲第２番（ブラームス）
-    <h5>
-     アンコール
-    </h5>
-<li>
-     ハンガリー舞曲第１番（ブラームス）
-    </li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第２０回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９８年９月１３日
- </strong>
-</p>
-<p>
- 第２０回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ファゴット：岡崎耕治
- <ul>
-<li>
-   歌劇「ウィリアムテル」序曲（ロッシーニ）
-   <li>
-    ファゴット協奏曲（モーツァルト）
-    <li>
-     組曲「展覧会の絵」（ムソルグスキー＝ラヴェル編曲）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      舞踏会の美女（アンダーソン）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>足立シティオーケストラ創立１０周年記念第２１回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９９年３月７日
- </strong>
-</p>
-<p>
- 足立シティオーケストラ創立１０周年記念第２１回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ソプラノ：秋元智子、アルト：神田静子、テノール：中鉢智、バリトン：今村雅彦、合唱：あだち第九合唱団
- <ul>
-<li>
-   わがまち足立（團伊玖磨）
-   <li>
-    楽劇「ニュルンベルクのマイスタージンガー」第１前奏曲（ワーグナー）
-    <li>
-     交響曲第９番「合唱付」（ベートーヴェン）
-    </li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第２２回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  １９９９年９月１２日
- </strong>
-</p>
-<p>
- 第２２回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   歌劇「運命の力」序曲（ヴェルディ）
-   <li>
-    小組曲（ドビュッシー）
-    <li>
-     交響曲第６番「悲愴」（チャイコフスキー）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      「白鳥の湖」より情景（チャイコフスキー）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第７回柳原音楽祭</h2>
-<div class="details">
-<p>
-<strong>
-  １９９９年１１月７日
- </strong>
-</p>
-<p>
- 第７回柳原音楽祭
-</p>
-<p>
- 足立区立柳原小学校体育館
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- 司会：杉山知恵子
- <ul>
-<li>
-   歌劇「フィガロの結婚」序曲（モーツァルト）
-   <li>
-    アリア（バッハ）
-    <li>
-     ハンガリー舞曲第５番（ブラームス）
-     <li>
-      楽器紹介
-      <li>
-       歌劇「ウィリアム・テル」序曲（ロッシーニ）
-       <li>
-        交響曲第６番「悲愴」（チャイコフスキー）
-        <h5>
-         アンコール
-        </h5>
-<li>
-         「白鳥の湖」より情景（チャイコフスキー）
-        </li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第２３回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２０００年３月５日
- </strong>
-</p>
-<p>
- 第２３回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ピアノ：東誠三
- <ul>
-<li>
-   歌劇「絹のはしご」序曲（ロッシーニ）
-   <li>
-    ピアノ協奏曲第２番（ラフマニノフ）
-    <li>
-     交響曲第４番（ブラームス）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      ハンガリー舞曲第１番（ブラームス）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第２４回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２０００年９月１０日
- </strong>
-</p>
-<p>
- 第２４回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   歌劇「オベロン」序曲（ウェーバー）
-   <li>
-    交響曲第２９番（モーツァルト）
-    <li>
-     交響曲第５番「革命」（ショスタコーヴィチ）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      舞踏会の美女（アンダーソン）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第２５回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００１年３月４日
- </strong>
-</p>
-<p>
- 第２５回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ヴァイオリン：大谷康子
- <ul>
-<li>
-   交響曲第８番（ベートーヴェン）
-   <li>
-    ヴァイオリン協奏曲（チャイコフスキー）
-    <li>
-     ボレロ（ラヴェル）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      歌劇「ローエングリン」第３幕前奏曲（ワーグナー）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第２６回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００１年９月９日
- </strong>
-</p>
-<p>
- 第２６回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   歌劇「ルスランとリュドミラ」序曲（グリンカ）
-   <li>
-    「ペールギュント」組曲（グリーグ）
-    <li>
-     交響組曲「シェエラザード」（リムスキー＝コルサコフ）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      ポルカ「雷鳴と電光」（Ｊ．シュトラウス）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第２７回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００２年３月３日
- </strong>
-</p>
-<p>
- 第２７回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- オーボエ：安原太武郎
- <ul>
-<li>
-   交響詩「前奏曲」（リスト）
-   <li>
-    オーボエ協奏曲（モーツァルト）
-    <li>
-     交響曲第２番（シベリウス）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      「カレリア」組曲より（シベリウス）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第２８回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００２年１０月６日
- </strong>
-</p>
-<p>
- 第２８回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   交響詩「はげ山の一夜」（ムソルグスキー）
-   <li>
-    「アルルの女」第２組曲（ビゼー）
-    <li>
-     交響曲第３番（ブラームス）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      金と銀（レハール）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>歓喜の演ＶＯＬ，２「第九」</h2>
-<div class="details">
-<p>
-<strong>
-  ２００２年１１月１７日
- </strong>
-</p>
-<p>
- 歓喜の演ＶＯＬ，２「第九」
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ソプラノ：林満理子、アルト：橋本恵子、テノール：高橋淳、バリトン：北村哲郎、合唱：足立「第九」を歌う会
- <ul>
-<li>
-   交響曲第９番「第九」（ベートーヴェン）
-  </li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第２９回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００３年３月２日
- </strong>
-</p>
-<p>
- 第２９回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- チェロ：石川祐支
- <ul>
-<li>
-   チェロ協奏曲（ドウ゛ォルザーク）
-   <li>
-    交響曲第９番「新世界より」（ドウ゛ォルザーク）
-    <h5>
-     アンコール
-    </h5>
-<li>
-     スラブ舞曲第？番（ドウ゛ォルザーク）
-    
-    </li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第６回ふれあいコンサート</h2>
-<div class="details">
-<p>
-<strong>
-  ２００３年８月１６日
- </strong>
-</p>
-<p>
- 第６回ふれあいコンサート
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   双頭の鷲の旗の下に（ワーグナー）
-   <li>
-    ビリーブ（杉本竜一）
-    <li>
-     ＭＡＲＭＡＬＡＤＥ ＦＡＲ ＣＬＡＲＩＮＥＴＳ（ＷＩＭＬＡＳＥＲＯＭＳ）
-    </li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第３０回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００３年９月７日
- </strong>
-</p>
-<p>
- 第３０回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   歌劇「ルスランとリュドミラ」序曲（グリンカ）
-   <li>
-    スペイン狂詩曲”エスパナ”（シャブリエ）
-    <li>
-     幻想交響曲作品１４（ベルリオーズ）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      オペラ「カウ゛ァレリア・ルスティカーナ」より間奏曲（マスカーニ）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第３１回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００４年３月７日
- </strong>
-</p>
-<p>
- 第３１回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ピアノ：佐藤卓史
- <ul>
-<li>
-   キャンディード序曲（バーンスタイン）
-   <li>
-    ピアノ協奏曲（グリーグ）
-    <li>
-     交響詩「中央アジアの平原より」（ボロディン）
-     <li>
-      幻想序曲「ロミオとジュリエット」（チャイコフスキー）
-      <h5>
-       アンコール
-      </h5>
-<li>
-       バレエ組曲白鳥の湖より「情景」（チャイコフスキー）
-       <li>
-        雷鳴と電光（Ｊ．シュトラウスII世）
-       </li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第３２回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００４年９月５日
- </strong>
-</p>
-<p>
- 第３２回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ヴァイオリン：三溝健一
- <ul>
-<li>
-   交響曲第４番　変ロ長調 Op.60（ベートーヴェン）
-   <li>
-    「カルメン組曲」抜粋（ビゼー）
-    <li>
-     スペイン奇想曲 Op.34（リムスキーコルサコフ）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      オペラ「カウ゛ァレリア・ルスティカーナ」より間奏曲（マスカーニ）
-      <li>
-       歌劇「ウィリアムテル」序曲（ロッシーニ）
-      </li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第１２回柳原音楽祭</h2>
-<div class="details">
-<p>
-<strong>
-  ２００４年１０月３１日
- </strong>
-</p>
-<p>
- 第１２回柳原音楽祭
-</p>
-<p>
- 千寿常東小学校体育館
-</p>
-<p>
- 指揮：浜津清仁
-</p>
-<p>
- 司会：佐藤美朝子
- <ul>
-<li>
-   交響曲第４番（ベートーヴェン）
-   <li>
-    楽器紹介
-    <li>
-     カルメン組曲（ビゼー）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      オペラ「カウ゛ァレリア・ルスティカーナ」より間奏曲（マスカーニ）
-      <li>
-       歌劇「ウィリアムテル」序曲（ロッシーニ）
-      </li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>歓喜の演vol.4「第九」</h2>
-<div class="details">
-<p>
-<strong>
-  ２００４年１２月１２日
- </strong>
-</p>
-<p>
- 歓喜の演vol.4「第九」
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ソプラノ：林満理子、アルト：橋本恵子、テノール：馬場崇、バス：小野和彦、合唱：足立「第九」を歌う会、合唱指揮：近藤直子
- <ul>
-<li>
-   第二部：交響曲第９番「合唱付」（ベートーヴェン）
-  </li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第３３回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００５年３月６日
- </strong>
-</p>
-<p>
- 第３３回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ピアノ：佐藤卓史
- <ul>
-<li>
-   エグモント序曲（ベートーヴェン）
-   <li>
-    ピアノ協奏曲第１番　変ホ長調 S.124（リスト）
-    <li>
-     交響曲第２番　ニ長調 Op.73（ブラームス）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      ハンガリー舞曲第６番（ブラームス）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第３４回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００５年９月４日
- </strong>
-</p>
-<p>
- 第３４回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   喜歌劇「こうもり」序曲（Ｊ・シュトラウス）
-   <li>
-    歌劇「ファウスト」 舞踊組曲（グノー）
-    <li>
-     交響曲第５番（チャイコフスキー）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      バレエ組曲くるみ割り人形より「花のワルツ」（チャイコフスキー）
-     </li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第３５回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００６年３月５日
- </strong>
-</p>
-<p>
- 第３５回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ヴァイオリン（マスネ）：三溝健一（当団コンサートマスター）
- <ul>
-<li>
-   交響詩「我が祖国」より“モルダウ”（スメタナ）：
-   <a href="35_moldau.mov">
-    試聴する
-   </a>
-<li>
-    交響曲第４１番ハ長調 K.551「ジュピター」（モーツァルト）：
-    <a href="35_mozart.mov">
-     試聴する
-    </a>
-<li>
-     交響曲第１番ハ短調 op.68（ブラームス）：
-     <a href="35_brahms1.mov">
-      試聴する
-     </a>
-     、
-     <a href="35_brahms4.mov">
-      試聴する
-     </a>
-<h5>
-      アンコール
-     </h5>
-<li>
-      タイスの瞑想曲（マスネ）
-      <li>
-       ハンガリー舞曲第１番（ブラームス）
-      </li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第３６回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００６年９月３日
- </strong>
-</p>
-<p>
- 第３６回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   歌劇「どろぼうかささぎ」序曲（ロッシーニ）
-   <li>
-    バレエ音楽「ガイーヌ」より抜粋（ハチャトゥリアン）
-    <li>
-     交響曲第５番ハ短調「運命」（ベートーヴェン）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      管弦楽組曲第３番より　アリア（バッハ）
-      <li>
-       舞踏会の美女（アンダーソン）
-      </li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第３７回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００７年３月４日
- </strong>
-</p>
-<p>
- 第３７回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- ピアノ：佐藤卓史
- <ul>
-<li>
-   「ローマの謝肉祭」序曲（ベルリオーズ）
-   <li>
-    ピアノ協奏曲第１番（チャイコフスキー）
-    <li>
-     ノクターン（チャイコフスキー）《アンコール　ピアノソロ》
-     <li>
-      交響曲第８番ト長調（ドヴォルザーク）
-      <h5>
-       アンコール
-      </h5>
-<li>
-       スラブ舞曲第８番（ドヴォルザーク）
-      </li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第３８回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００７年９月２日
- </strong>
-</p>
-<p>
- 第３８回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
- <ul>
-<li>
-   喜歌劇「詩人と農夫」序曲（スッペ）
-   <li>
-    歌劇「イーゴリ公」よりダッタン人の踊り（ボロディン）
-    <li>
-     交響曲ニ短調（フランク）
-     <h5>
-      アンコール
-     </h5>
-<li>
-      歌劇「カヴァレリアルスティカーナ」より間奏曲（マスカーニ）
-      <li>
-       雷鳴と電光（シュトラウス）
-      </li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>創立20周年記念第1弾　第３９回定期演奏会</h2>
-<div class="details">
-<p>
-<strong>
-  ２００８年３月２日
- </strong>
-</p>
-<p>
- 第３９回定期演奏会
-</p>
-<p>
- 西新井文化ホール
-</p>
-<p>
- 指揮：汐澤安彦
-</p>
-<p>
- 合唱指揮：坂本和彦
-合唱：足立シティオーケストラ第九合唱団
-ソプラノ：大貫裕子、アルト：藤井奈生子、テノール：藤牧正充、バリトン：浅井隆仁
- <ul>
-<li>
-   行進曲「威風堂々」第１番（エルガー）
-   <li>
-    交響曲第９番ニ短調「合唱」（ベートーヴェン）
-   </li>
-</li>
-</ul>
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>創立20周年記念第2弾　第40回定期演奏会</h2>
-<div class="details">
-        * 日時：２００８年９月２８日　１４：３０開演
-    * 場所：西新井文化ホール
-    * 指揮：汐澤安彦 
 
-曲目
-
-    * 祝典序曲（ショスタコーヴィチ）
-    * 交響曲第４０番ト短調（モーツァルト）
-    * 交響曲第４番変ホ長調「ロマンティック」（ブルックナー） 
-
-アンコール
-
-    * カヴァレリアルスティカーナより間奏曲（マスカーニ）
-
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="header-logo" href="#">
+      <div class="logo-mark">ACO</div>
+      <div>
+        <div class="logo-text">足立シティオーケストラ</div>
+        <div class="logo-sub">Adachi City Orchestra</div>
       </div>
-</div>
-<div class="concert">
-<h2>第４１回定期演奏会</h2>
-<div class="details">
-<ul>
-<li>
-  日時：
-２００９年３月８日　１４：３０開演
- </li>
-<li>
-  場所：
-西新井文化ホール
- </li>
-<li>
-  指揮：
-汐澤安彦
- </li>
-<li>
-  曲目：
-  <ul>
-<li>
-    ワーグナー／楽劇「ニュルンベルクのマイスタージンガー」第１幕前奏曲
-    <li>
-     ハチャトゥリアン／バレエ音楽「仮面舞踏会」
-     <li>
-      シューベルト／交響曲第９番「グレート」
-     </li>
-</li>
-</li>
-</ul>
-<li>
-   アンコール
-   <ul>
-<li>
-     ハチャトゥリアン／「ガイーヌ」より「レズギンカ」
-    </li>
-</ul>
-</li>
-</li>
-</ul>
-</div>
-</div>
-<div class="concert">
-<h2>第４２回定期演奏会　開催のお知らせ</h2>
-<div class="details">
-<ul>
-<li>
-  日時：
-２００９年９月６日　１４：３０開演
- </li>
-<li>
-  場所：
-西新井文化ホール
- </li>
-<li>
-  指揮：
-汐澤安彦
- </li>
-<li>
-  曲目：
-  <ul>
-<li>
-    ベートーヴェン／レオノーレ序曲第３番
-    <li>
-     リスト／交響詩「前奏曲」
-     <li>
-      チャイコフスキー／交響曲第４番
-     </li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-<p>
- みなさまのお越しを心よりお待ち申し上げます。
-</p>
-</div>
-</div>
-<div class="concert">
-<h2>第４３回定期演奏会</h2>
-<div class="details">
-<p>
-<a href="#img99"><img alt="" class="thumbnail" height="566" src="20100105030331219_1_original.gif" width="400"/></a><div class="lightbox" id="img99"><a href="#"><img alt="拡大画像" src="20100105030331219_1_original.gif"/></a></div>
-</a>
-</p>
-<ul>
-<li>
-  日時：
-２０１０年３月７日
- </li>
-<li>
-  場所：
-西新井文化ホール
- </li>
-<li>
-  指揮：
-汐澤安彦
- </li>
-<li>
-  曲目：
-  <ul>
-<li>
-    Ｆ.メンデルスゾーン／序曲「フィンガルの洞窟」
-    <li>
-     Ｐ.Ｉ.チャイコフスキー／バレエ音楽「くるみ割り人形」より組曲
-     <li>
-      Ｒ.シューマン／交響曲第1番「春」
-     </li>
-</li>
-</li>
-</ul>
-</li>
-<li>
-  アンコール：
-  <ul>
-<li>
-    ブラームス／ハンガリー舞曲第１番
-   </li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div class="concert">
-<h2>第４４回定期演奏会</h2>
-<div class="details">
-<a href="#img1"><img alt="" class="thumbnail" height="566" src="20100613231643532_1_original.jpg" width="400"/></a><div class="lightbox" id="img1"><a href="#"><img alt="拡大画像" src="20100613231643532_1_original.jpg"/></a></div>
-<ul>
-<li>
-  日時：
-２０１０年９月１２日（日）
- </li>
-<li>
-  場所：
-西新井文化ホール
- </li>
-<li>
-  指揮：
-汐澤安彦
- </li>
-<li>
-  曲目：
- </li>
-<ul>
-<li>
-   ヴェルディ／歌劇「運命の力」序曲
-   <li>
-    シューベルト／交響曲第7番「未完成」
-    <li>
-     ベートーヴェン／交響曲第3番「英雄」
-    </li>
-</li>
-</li>
-</ul>
-<li>
-  アンコール：
- </li>
-<ul>
-<li>
-   シューベルト／ロザムンデ間奏曲
-  </li>
-<li>
-   ブラームス／ハンガリー舞曲第５番
-  </li>
-</ul>
-</ul>
-</div>
-</div>
-<div class="concert">
-<h2>第４５回定期演奏会</h2>
-<div class="details">
-<ul>
-<li>
-  日時：
-２０１１年３月６日　１４：３０開演
- </li>
-<li>
-  場所：
-西新井文化ホール
- </li>
-<li>
-  指揮：
-汐澤安彦
- </li>
-<li>
-  曲目：
-  <ul>
-<li>
-    ウェーバー／「魔弾の射手」序曲
-    <li>
-     ドリーブ／バレエ音楽「コッペリア」
-     <li>
-      チャイコフスキー／交響曲第６番「悲愴」
-     </li>
-</li>
-</li>
-</ul>
-<li>
-   アンコール：
-   <ul>
-<li>
-     チャイコフスキー／バレエ音楽「眠れる森の美女」よりワルツ
-    </li>
-</ul>
-</li>
-</li>
-</ul>
-</div>
-</div>
-<div class="concert">
-<h2>第４６回定期演奏会</h2>
-<div class="details">
-<p>
-<a href="#img2"><img alt="" class="thumbnail" height="428" src="2011052501140116_1.jpg" width="300"/></a><div class="lightbox" id="img2"><a href="#"><img alt="拡大画像" src="2011052501140116_1.jpg"/></a></div>
-</p>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：
-２０１１年９月２５日
-１４：００開演　（１３：３０開場）
-    </li>
-<li>
-     場所：
-かつしかシンフォニーヒルズ　モーツァルトホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       ヴェルディ／歌劇「ナブッコ」序曲
-       <li>
-        ドビュッシー／小組曲
-        <li>
-         ブラームス／交響曲第４番
-        </li>
-</li>
-</li>
-</ul>
-<li>
-      アンコール
-      <ul>
-<li>
-        ブラームス／ハンガリー舞曲第６番
-       </li>
-</ul>
-</li>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="concert">
-  <h2>第47回定期演奏会</h2>
-  <div class="details">
-<a href="#img3"><img alt="" class="thumbnail" height="566" src="20111128233811984_1_original.jpg" width="400"/></a><div class="lightbox" id="img3"><a href="#"><img alt="拡大画像" src="20111128233811984_1_original.jpg"/></a></div>
-<a href="#img4"><img alt="" class="thumbnail" height="565" src="20111128233811984_2_original.jpg" width="400"/></a><div class="lightbox" id="img4"><a href="#"><img alt="拡大画像" src="20111128233811984_2_original.jpg"/></a></div>
-
-      <p><strong>2012年3月11日（日）14時開演</strong></p>
-    <p>かつしかシンフォニーヒルズ<br>モーツァルトホール</p>
-    <p>指揮：汐澤安彦</p>
-    <h5>プログラム</h5>
-    <ul>
-      <li>シベリウス：序曲「フィンランディア」</li>
-      <li>グリーグ：組曲「ペール・ギュント」抜粋</li>
-      <li>ベートーヴェン：交響曲第5番「運命」</li>
-    </ul>
-    <h5>アンコール</h5>
-    <ul>
-      <li>マスカーニ：歌劇「カヴァレリア・ルスティカーナ」より 間奏曲</li>
-      <li>ヨハン・シュトラウスⅡ：トリッチ・トラッチ・ポルカ</li>
-    </ul>
+    </a>
   </div>
-</div>
-<div class="concert">
-<h2>第４８回定期演奏会</h2>
-<div class="details">
-<p><strong>2012年9月17日（祝・月）14時開演</strong></p>
-<p>かつしかシンフォニーヒルズ<br/>モーツァルトホール</p>
-<p>指揮：汐澤安彦</p>
-<h5>プログラム</h5>
-<ul>
-<li>リムスキー＝コルサコフ：交響組曲「シェヘラザード」</li>
-<li>フォーレ（アンリ・ラボー編曲）：組曲「ドリー」</li>
-<li>グリンカ：「ルスランとリュドミラ」序曲</li>
-</ul>
-<h5>アンコール</h5>
-<ul>
-<li>チャイコフスキー：バレエ組曲「白鳥の湖」より「情景」、「ハンガリーの踊り（チャールダッシュ）」</li>
-</ul>
-</div>
-</div>
-<div class="concert">
-<h2>第４９回定期演奏会</h2>
-<div class="details">
-<p><strong>2013年3月10日（日）14:00開演</strong></p>
-<p>かつしかシンフォニーヒルズ<br/>モーツァルトホール</p>
-<p>指揮：汐澤安彦<br/>ヴァイオリン独奏：大谷康子</p>
-<h5>プログラム</h5>
-<ul>
-<li>フンパーディンク：歌劇「ヘンゼルとグレーテル」前奏曲</li>
-<li>ブルッフ：ヴァイオリン協奏曲第1番</li>
-<li>ドヴォルザーク：交響曲第9番「新世界より」</li>
-</ul>
-<h5>アンコール</h5>
-<ul>
-<li>ドヴォルザーク：スラブ舞曲第8番</li>
-</ul>
-</div>
-</div>
-<div class="concert">
-<h2>第５０回記念定期演奏会</h2>
-<div class="details">
-<div>
-<center>
-<a href="#img5"><img alt="" class="thumbnail" height="565" src="20130320131409817_1_original.jpg" width="400"/></a><div class="lightbox" id="img5"><a href="#"><img alt="拡大画像" src="20130320131409817_1_original.jpg"/></a></div>
-<a href="#img6"><img alt="" class="thumbnail" height="565" src="20130320131409817_2_original.jpg" width="400"/></a><div class="lightbox" id="img6"><a href="#"><img alt="拡大画像" src="20130320131409817_2_original.jpg"/></a></div>
-</center>
-</div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１３年９月２９日（日）
-     <br>
-     １４：００開演　（１３：３０開場）
-    </br></li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       交響曲第2番／ベートーヴェン
-       <li>
-        狂詩曲「スペイン」／シャブリエ
-        <li>
-         組曲「火の鳥」(1919版)／ストラヴィンスキー
-        </li>
-</li>
-</li>
-</ul>
-<li>
-      アンコール：
-      <ul>
-<li>
-        歌劇「ローエングリン」第３幕前奏曲／ワーグナー
-       </li>
-</ul>
-</li>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="concert">
-<h2>第５１回定期演奏会</h2>
-<div class="details">
-<p><strong>2014年3月2日（日）14:00開演</strong></p>
-<p>西新井文化ホール</p>
-<p>指揮：汐澤安彦</p>
-<h5>プログラム</h5>
-<ul>
-<li>ビゼー：交響曲 ハ長調</li>
-<li>サン＝サーンス：歌劇「サムソンとデリラ」より バッカナール</li>
-<li>チャイコフスキー：バレエ音楽「白鳥の湖」抜粋</li>
-</ul>
-</div>
-</div>
-<div class="concert">
-<h2>第５２回定期演奏会</h2>
-<div class="details">
-<a href="#img7"><img alt="" class="thumbnail" height="565" src="20140303064059969_1_original.jpg" width="400"/></a><div class="lightbox" id="img7"><a href="#"><img alt="拡大画像" src="20140303064059969_1_original.jpg"/></a></div>
-<a href="#img8"><img alt="" class="thumbnail" height="565" src="20140303064059969_2_original.jpg" width="400"/></a><div class="lightbox" id="img8"><a href="#"><img alt="拡大画像" src="20140303064059969_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１４年９月７日（日）
-     <br>
-     １４：００開演　（１３：３０開場）
-    </br></li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     マリンバ：
-岩見玲奈
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       ゴジラ・ファンタジー／伊福部昭（和田 薫 編曲）
-       <li>
-        マリンバとオーケストラのための「ラウダ・コンチェルタータ」／伊福部昭
-        <li>
-         ソリスト・アンコール：ロンドンデリーの歌
-         <li>
-          交響曲第５番／ショスタコーヴィチ
-          <li>
-           アンコール
-           <ul>
-<li>
-             カヴァレリア・ルスティカーナより間奏曲／マスカーニ
-             <li>
-              組曲「道化師」よりギャロップ／カバレフスキー
-             </li>
-</li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="concert">
-<h2>第５３回定期演奏会</h2>
-<div class="details">
-<a href="#img9"><img alt="" class="thumbnail" height="565" src="20150107195550877_1_original.jpg" width="400"/></a><div class="lightbox" id="img9"><a href="#"><img alt="拡大画像" src="20150107195550877_1_original.jpg"/></a></div>
-<a href="#img10"><img alt="" class="thumbnail" height="565" src="20150107195550877_2_original.jpg" width="400"/></a><div class="lightbox" id="img10"><a href="#"><img alt="拡大画像" src="20150107195550877_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１５年３月１日（日）
-     <br>
-     １４：００開演　（１３：３０開場）
-    </br></li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       スラブ行進曲／チャイコフスキー
-       <li>
-        バレエ音楽「ロメオとジュリエット」抜粋／プロコフィエフ
-        <li>
-         交響曲第３番「ライン」／シューマン
-         <li>
-          アンコール
-          <ul>
-<li>
-            子供の情景より「トロイメライ」／シューマン
-            <li>
-             歌劇「売られた花嫁」より「道化師の踊り」／スメタナ
-            </li>
-</li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="concert">
-<h2>第５４回定期演奏会</h2>
-<div class="details">
-<a href="#img11"><img alt="" class="thumbnail" height="565" src="20150302233411898_1_original.jpg" width="400"/></a><div class="lightbox" id="img11"><a href="#"><img alt="拡大画像" src="20150302233411898_1_original.jpg"/></a></div>
-<a href="#img12"><img alt="" class="thumbnail" height="565" src="20150302233411898_2_original.jpg" width="400"/></a><div class="lightbox" id="img12"><a href="#"><img alt="拡大画像" src="20150302233411898_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１５年９月６日（日）
-     <br/>
-</li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       悪魔の踊り／ヘルメスベルガー二世
-       <li>
-        バレエ音楽「三角帽子」第二組曲／ファリャ
-        <li>
-         交響曲第７番／ベートーヴェン
-         <li>
-          アンコール：
-          <ul>
-<li>
-            タイスの瞑想曲／マスネー（独奏：三溝健一）
-            <li>
-             歌劇「ローエングリン」より第三幕への前奏曲／ワーグナー
-            </li>
-</li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-<!--
-<p>2002年のウィーン・フィル　"ニューイヤーコンサート"で小澤征爾が振り一躍有名となった「悪魔の踊り」、バレエ音楽「三角帽子」、そしてベートーヴェンの交響曲中もっともリズミカルといわれる「交響曲第７番」と、"踊り"をテーマに構成したプログラムとなりました。ウキウキわくわく心も体も踊りだしたくなるようなひと時をお楽しみください。</p>
-<p><em>本公演は「<a href="http://amusicfes.blogspot.jp/p/blog-page_11.html" TARGET="_blank">第１１回足立区音楽祭</a>」に協賛しています。</em></p>
--->
-</div>
-</div>
-<div class="concert">
-<h2>第５５回定期演奏会</h2>
-<div class="details">
-<a href="#img13"><img alt="" class="thumbnail" height="565" src="20151128090205581_1_original.jpg" width="400"/></a><div class="lightbox" id="img13"><a href="#"><img alt="拡大画像" src="20151128090205581_1_original.jpg"/></a></div>
-<a href="#img14"><img alt="" class="thumbnail" height="566" src="20151128090205581_2_original.jpg" width="400"/></a><div class="lightbox" id="img14"><a href="#"><img alt="拡大画像" src="20151128090205581_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１６年３月６日（日）
-     <br/>
-</li>
-<li>
-     場所：
-すみだトリフォニーホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     オルガン：
-室住素子
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       「エグモント」序曲／ベートーヴェン
-       <li>
-        組曲「絵のような風景」／マスネ
-        <li>
-         交響曲第３番「オルガン付き」／サン＝サーンス
-         <li>
-          アンコール：
-          <ul>
-<li>
-            主よ人の望みの喜びよ／バッハ
-            <li>
-             スラブ舞曲第９番／ドヴォルザーク
-            </li>
-</li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-<!--
-<p>
-普段、足立区内で定期演奏会を開催している当団が、すみだトリフォニーホールに初登場します。このホールでの公演が一期一会、最高の演奏となるよう、団員一同、心をこめてお贈りいたします。
-</p>
-<h4>チケット取り扱い</h4>
-<p><em>チラシに記載されている無料ご招待は、応募数上限に達しましたので、終了とさせていただきました。</em>（<a href="http://ashioke.com/4tkt/sformmail.html">チケットご予約はこちらから</a>）<p>
-<ul>
-<li>トリフォニーホールチケットセンター　03-5608-1212
-<li>足立区柳原商栄会（ゑびす屋） 03-3888-3577
-</ul>
--->
-</div>
-</div>
-<div class="concert">
-<h2>第５６回定期演奏会</h2>
-<div class="details">
-<a href="#img15"><img alt="" class="thumbnail" height="563" src="20160630052346373_1_original.jpg" width="400"/></a><div class="lightbox" id="img15"><a href="#"><img alt="拡大画像" src="20160630052346373_1_original.jpg"/></a></div>
-<a href="#img16"><img alt="" class="thumbnail" height="565" src="20160630052346373_2_original.jpg" width="400"/></a><div class="lightbox" id="img16"><a href="#"><img alt="拡大画像" src="20160630052346373_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１６年９月４日（日）１４：００（開場：１３：３０）
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     コントラバス：
-吉田聖也
-    </li>
-<li>
-     ヴァイオリン：
-三溝健一
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       交響詩「死の舞踏」／サン＝サーンス
-       <li>
-        コントラバス協奏曲／クーセヴィツキー
-        <li>
-         交響曲第５番／チャイコフスキー
-         <li>
-          アンコール：
-          <ul>
-<li>
-            バレエ「眠れる森の美女」よりワルツ／チャイコフスキー
-           </li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="concert">
-<h2>第５７回定期演奏会</h2>
-<div class="details">
-<a href="#img17"><img alt="" class="thumbnail" height="565" src="20160912190837205_1_original.jpg" width="400"/></a><div class="lightbox" id="img17"><a href="#"><img alt="拡大画像" src="20160912190837205_1_original.jpg"/></a></div>
-<a href="#img18"><img alt="" class="thumbnail" height="565" src="20160912190837205_2_original.jpg" width="400"/></a><div class="lightbox" id="img18"><a href="#"><img alt="拡大画像" src="20160912190837205_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１７年３月１２日（日）１４：００
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       「ローマの謝肉祭」序曲／ベルリオーズ
-       <li>
-        交響曲第38番「プラハ」／モーツァルト
-        <li>
-         交響曲第8番／ドヴォルジャーク
-         <li>
-          アンコール：
-          <ul>
-<li>
-            スラブ舞曲第１０番／ドヴォルジャーク
-            <li>
-             スラブ舞曲第８番／ドヴォルジャーク
-            </li>
-</li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
+</header>
 
-</div>
-</div>
-<div class="concert">
-<h2>第５８回定期演奏会</h2>
-<div class="details">
-<a href="#img19"><img alt="" class="thumbnail" height="565" src="2017031506281476_1_original.jpg" width="400"/></a><div class="lightbox" id="img19"><a href="#"><img alt="拡大画像" src="2017031506281476_1_original.jpg"/></a></div>
-<a href="#img20"><img alt="" class="thumbnail" height="565" src="2017031506281476_2_original.jpg" width="400"/></a><div class="lightbox" id="img20"><a href="#"><img alt="拡大画像" src="2017031506281476_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１７年９月３日（日）１４：００
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       歌劇「アルジェのイタリア女」序曲／ロッシーニ
-       <li>
-        幻想序曲「ロメオとジュリエット」／チャイコフスキー
-        <li>
-         交響曲第2番／ブラームス
-         <li>
-          アンコール：
-          <ul>
-<li>
-            ハンガリー舞曲第４番／ブラームス
-           </li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Concert Archive</div>
+    <h1 class="hero-title">過去の演奏会一覧</h1>
+    <span class="hero-notice">このページは現在整備中です。情報は順次追加予定です。</span>
+  </div>
+</section>
 
-</div>
-</div>
-<div class="concert">
-<h2>第５９回定期演奏会</h2>
-<div class="details">
-<a href="#img21"><img alt="" class="thumbnail" height="565" src="2017090406292923_1_original.jpg" width="400"/></a><div class="lightbox" id="img21"><a href="#"><img alt="拡大画像" src="2017090406292923_1_original.jpg"/></a></div>
-<a href="#img22"><img alt="" class="thumbnail" height="565" src="2017090406292923_2_original.jpg" width="400"/></a><div class="lightbox" id="img22"><a href="#"><img alt="拡大画像" src="2017090406292923_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１８年３月４日（日）１４：００開演
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       歌劇「詩人と農夫」序曲／スッペ
-       <li>
-        カレリア組曲／シベリウス
-        <li>
-         交響曲第１番／シベリウス
-         <li>
-          アンコール：
-          <ul>
-<li>
-            タイスの瞑想曲／マスネー（ヴァイオリン：三溝健一）
-            <li>
-             舞踏会の美女／アンダーソン
-            </li>
-</li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-
-</div>
-</div>
-<div class="concert">
-<h2>第６０回記念定期演奏会</h2>
-<div class="details">
-<a href="#img23"><img alt="" class="thumbnail" height="565" src="20180317072348918_1_original.jpg" width="400"/></a><div class="lightbox" id="img23"><a href="#"><img alt="拡大画像" src="20180317072348918_1_original.jpg"/></a></div>
-<a href="#img24"><img alt="" class="thumbnail" height="565" src="20180317072348918_2_original.jpg" width="400"/></a><div class="lightbox" id="img24"><a href="#"><img alt="拡大画像" src="20180317072348918_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１８年９月９日（日）１４：００開演
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     ピアノ独奏：
-佐藤卓史
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       ピアノ協奏曲第5番「皇帝」／ベートーヴェン
-       <li>
-        交響詩「中央アジアの草原にて」／ボロディン
-        <li>
-         大序曲「1812年」／チャイコフスキー
-         <li>
-          アンコール：
-          <ul>
-<li>
-            エニグマ変奏曲より「ニムロッド」／エルガー
-           </li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="concert">
-<h2>創立３０周年第２弾　第６１回定期演奏会</h2>
-<div class="details">
-<a href="#img25"><img alt="" class="thumbnail" height="565" src="20190113154228753_1_original.jpg" width="400"/></a><div class="lightbox" id="img25"><a href="#"><img alt="拡大画像" src="20190113154228753_1_original.jpg"/></a></div>
-<a href="#img26"><img alt="" class="thumbnail" height="565" src="20190113154228753_2_original.jpg" width="400"/></a><div class="lightbox" id="img26"><a href="#"><img alt="拡大画像" src="20190113154228753_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１９年３月９日（土）１４：００開演（１３：３０開場）
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     トランペット独奏：
-アンドレ・アンリ
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       アルジェリア組曲より「フランス軍隊行進曲」／サン＝サーンス
-       <li>
-        トランペット協奏曲／アルチュニアン
-        <li>
-         交響曲第７番／ドヴォルザーク
-         <li>
-          ソリストアンコール：
-          <ul>
-<li>
-            コンサートスケルツォ／アルチュニアン
-            <li>
-             トランペット吹きの子守歌／アンダーソン
-            </li>
-</li>
-</ul>
-<li>
-           アンコール：
-           <ul>
-<li>
-             スラブ舞曲第１番／ドヴォルザーク
-            </li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-
-</div>
-</div>
-<div class="concert">
-<h2>室内楽演奏会2019</h2>
-<div class="details">
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１９年６月２３日（日）１４：００開演
-    </li>
-<li>
-     場所：
-足立区竹ノ塚地域学習センター４階ホール（入場無料）
-    </li>
-<!--
-<li>指揮：
-汐澤安彦
-</li>
--->
-<li>
-     曲目：
-     <ul>
-<li>
-       フルート四重奏曲／モーツァルト
-       <li>
-        セレナード第１０番「グラン・パルティータ」／モーツァルト
-        <li>
-         弦楽のための交響曲第９番「スイス」／メンデルスゾーン、他
-         <!--
-   <li>アンコール：
-     <ul>
-     <li>曲名／作曲者
-     </ul>
--->
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-
-</div>
-</div>
-<div class="concert">
-<h2>第６２回定期演奏会</h2>
-<div class="details">
-<a href="#img27"><img alt="" class="thumbnail" height="565" src="20190315061847988_1_original.jpg" width="400"/></a><div class="lightbox" id="img27"><a href="#"><img alt="拡大画像" src="20190315061847988_1_original.jpg"/></a></div>
-<a href="#img28"><img alt="" class="thumbnail" height="566" src="20190315061847988_2_original.jpg" width="400"/></a><div class="lightbox" id="img28"><a href="#"><img alt="拡大画像" src="20190315061847988_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０１９年９月７日（土）１４：００開演
-    </li>
-<li>
-     場所：
-すみだトリフォニーホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       交響曲第７番「未完成」／シューベルト
-       <li>
-        交響曲第１番「巨人」／マーラー
-        <li>
-         アンコール：
-         <ul>
-<li>
-           エニグマ変奏曲より「ニムロッド」／エルガー
-          </li>
-</ul>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-
-</div>
-</div>
-<div class="concert">
-<h2>第６３回定期演奏会（公演中止）</h2>
-<div class="details">
-
-<a href="#img29"><img alt="" class="thumbnail" height="565" src="20190908230625433_1_original.jpg" width="400"/></a><div class="lightbox" id="img29"><a href="#"><img alt="拡大画像" src="20190908230625433_1_original.jpg"/></a></div>
-<a href="#img30"><img alt="" class="thumbnail" height="565" src="20190908230625433_2_original.jpg" width="400"/></a><div class="lightbox" id="img30"><a href="#"><img alt="拡大画像" src="20190908230625433_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<!--
-<li>日時：２０２０年３月１日（日）１４：００開演予定（１３：３０開場）
-</li>
-
-<li>場所：
-西新井文化ホール
-</li>
--->
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     チェロ独奏：
-上朱可里
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       大学祝典序曲／ブラームス
-       <li>
-        チェロ協奏曲／エルガー
-        <li>
-         交響曲第１番／ブラームス
-        </li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-<!--
-<h4>チケットについて</h4>
-<p>
-当日券を販売いたします。
-</p>
-<p>
-お陰様をもちまして、第63回定期演奏会のチケットは予定枚数を完売致しました。<br/>
-チケットを入手できなかったお客様には、心よりお詫び申し上げます。
-</p>
--->
-</div>
-</div>
-<div class="concert">
-<h2>第６６回定期演奏会（公演中止）</h2>
-<div class="details">
-<a href="#img31"><img alt="" class="thumbnail" height="561" src="20210810205427506_1_original.jpg" width="400"/></a><div class="lightbox" id="img31"><a href="#"><img alt="拡大画像" src="20210810205427506_1_original.jpg"/></a></div>
-<a href="#img32"><img alt="" class="thumbnail" height="561" src="20210810205427506_2_original.jpg" width="400"/></a><div class="lightbox" id="img32"><a href="#"><img alt="拡大画像" src="20210810205427506_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０２１年９月５日（日）１４：００開演（１３：００開場）
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       交響曲第４０番ト短調／モーツァルト
-       <li>
-        交響曲第６番ロ短調「悲愴」／チャイコフスキー
-       </li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-<!--
-<h4>チケットについて</h4>
-<p>
-当日券を販売いたします。
-</p>
-<p>
-お陰様をもちまして、第63回定期演奏会のチケットは予定枚数を完売致しました。<br/>
-チケットを入手できなかったお客様には、心よりお詫び申し上げます。
-</p>
--->
-</div>
-</div>
-<div class="concert">
-<h2>室内楽演奏会2021</h2>
-<div class="details">
-    <a href="#img98"><img alt="" class="thumbnail" height="561" src="20211126215117570_1_original.jpeg" width="400"/></a><div class="lightbox" id="img98"><a href="#"><img alt="拡大画像" src="20211126215117570_1_original.jpeg"/></a></div>
-</a>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０２１年１１月２８日（日）１４：００開演（１３：００開場）
-    </li>
-<li>
-     場所：
-竹の塚地域センター　4Fホール
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       音楽の楽しみ／パッヘルベル
-       <li>
-        「ハウルの動く城」メドレー他／久石譲
-        <li>
-         グランド・カルテット／クーラウ
-         <li>
-          ケーゲルシュタット・トリオ／モーツァルト
-          <li>
-           ディベルティメント／ベルナール
-           <li>
-            ホルベルク組曲／グリーグ
-           </li>
-</li>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="concert">
-<h2>第68回定期演奏会</h2>
-<div class="details">
-<a href="#img97"><img alt="" class="thumbnail" height="561" src="20220721091648736_1_original.jpeg" width="400"/></a><div class="lightbox" id="img97"><a href="#"><img alt="拡大画像" src="20220721091648736_1_original.jpeg"/></a></div>
-</a>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０２２年９月４日（日）１４：００開演（１３：００開場）
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-三溝健一
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       序曲「謝肉祭」作品92／ドヴォルザーク
-       <li>
-        スラブ舞曲集より第1番、10番、8番／ドヴォルザーク
-        <li>
-         交響曲第3番 作品90／ブラームス
-        </li>
-</li>
-</li>
-</ul>
-<li>
-      アンコール
-      <ul>
-<li>
-        ハンガリー舞曲第６番／ブラームス
-       </li>
-</ul>
-</li>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="concert">
-<h2>第69回定期演奏会</h2>
-<div class="details">
-<a href="#img96"><img alt="" class="thumbnail" height="561" src="20230224214226974_1_original.jpeg" width="400"/></a><div class="lightbox" id="img96"><a href="#"><img alt="拡大画像" src="20230224214226974_1_original.jpeg"/></a></div>
-</a>
-<a href="#img95"><img alt="" class="thumbnail" height="561" src="20230224214226974_2_original.jpeg" width="400"/></a><div class="lightbox" id="img95"><a href="#"><img alt="拡大画像" src="20230224214226974_2_original.jpeg"/></a></div>
-</a>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０２３年３月５日（日）１４：００開演
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       歌劇「魔笛」序曲／モーツァルト
-       <li>
-        連作交響詩「我が祖国」より「モルダウ」／スメタナ
-        <li>
-         交響曲第４番 ニ短調 作品120／シューマン
-         <li>
-          アンコール
-          <ul>
-<li>
-            エニグマ変奏曲より「ニムロッド」／エルガー
-           </li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="concert">
-<h2>第７０回定期演奏会</h2>
-<div class="details">
-    <a href="#img94"><img alt="" class="thumbnail" height="561" src="20230510045632433_1_original.jpeg" width="400"/></a><div class="lightbox" id="img94"><a href="#"><img alt="拡大画像" src="20230510045632433_1_original.jpeg"/></a></div>
-</a>
-    <a href="#img93"><img alt="" class="thumbnail" height="561" src="20230510045632433_2_original.jpeg" width="400"/></a><div class="lightbox" id="img93"><a href="#"><img alt="拡大画像" src="20230510045632433_2_original.jpeg"/></a></div>
-</a>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０２３年９月３日（日）１４：００開演（１３：００開場）
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     チェロ独奏：
-上朱可里
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       チェロ協奏曲 ／ドヴォルザーク
-       <li>
-        交響曲第５番「宗教改革」／メンデルスゾーン
-        <!--
-    <li> アンコール
-    <ul>
-        <li> エニグマ変奏曲より「ニムロッド」／エルガー
-    </ul>
--->
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="concert">
-<h2>第７１回定期演奏会</h2>
-<div class="details">
-<a href="#img33"><img alt="" class="thumbnail" height="565" src="20231229181243113_1_original.jpg" width="400"/></a><div class="lightbox" id="img33"><a href="#"><img alt="拡大画像" src="20231229181243113_1_original.jpg"/></a></div>
-<a href="#img34"><img alt="" class="thumbnail" height="565" src="20231229181243113_2_original.jpg" width="400"/></a><div class="lightbox" id="img34"><a href="#"><img alt="拡大画像" src="20231229181243113_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０２４年３月３日（日）１４：００開演
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       「フィンガルの洞窟」序曲／メンデルスゾーン
-       <li>
-        ハンガリー狂詩曲第２番／リスト（ミューラー編）
-        <li>
-         交響曲第４番／チャイコフスキー
-         <li>
-          アンコール
-          <ul>
-<li>
-            バレエ音楽「くるみ割り人形」より『花のワルツ』／チャイコフスキー
-           </li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="concert">
-<h2>第７２回定期演奏会</h2>
-<div class="details">
-<a href="#img35"><img alt="" class="thumbnail" height="565" src="20240728175058293_1_original.jpg" width="400"/></a><div class="lightbox" id="img35"><a href="#"><img alt="拡大画像" src="20240728175058293_1_original.jpg"/></a></div>
-<a href="#img36"><img alt="" class="thumbnail" height="565" src="20240728175058293_2_original.jpg" width="400"/></a><div class="lightbox" id="img36"><a href="#"><img alt="拡大画像" src="20240728175058293_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０２４年９月１日（日）１４：００開演（１３：１５開場）
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-汐澤安彦
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       威風堂々第１番／エルガー
-       <li>
-        交響曲第３５番「ハフナー」／モーツァルト
-        <li>
-         交響曲第４番／ブラームス
-         <li>
-          アンコール
-          <ul>
-<li>
-            ハンガリー舞曲第６番／ブラームス
-           </li>
-</ul>
-</li>
-</li>
-</li>
-</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="concert">
-<h2>第７３回定期演奏会</h2>
-<div class="details">
-<a href="#img37"><img alt="" class="thumbnail" height="570" src="20250105234136884_1_original.jpg" width="400"/></a><div class="lightbox" id="img37"><a href="#"><img alt="拡大画像" src="20250105234136884_1_original.jpg"/></a></div>
-<a href="#img38"><img alt="" class="thumbnail" height="569" src="20250105234136884_2_original.jpg" width="400"/></a><div class="lightbox" id="img38"><a href="#"><img alt="拡大画像" src="20250105234136884_2_original.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０２５年３月２日（日）１４：００開演（１３：１５開場）
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-三溝健一（故 汐澤安彦 に代わり、当団コンサートマスター兼副指揮者 三溝健一 の指揮、客演コンサートミストレスに 民谷 香子さんを迎え開催した）
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       歌劇「オイリアンテ」序曲／ウェーバー
-       <li>
-        交響譚詩／伊福部昭
-        <li>
-         交響曲第２番／シベリウス
-         
-    <li> アンコール
-    <ul>
-<li> エニグマ変奏曲より「ニムロッド」／エルガー
-    </li></ul>
-</li>
-</li>
-</li>
-</li></ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-    </div>
-<div class="concert">
-<h2>第７４回定期演奏会</h2>
-<div class="details">
-<a href="#img39"><img alt="" class="thumbnail" height="570" src="569640631228694887.jpg" width="400"/></a><div class="lightbox" id="img39"><a href="#"><img alt="拡大画像" src="569640631228694887.jpg"/></a></div>
-<a href="#img40"><img alt="" class="thumbnail" height="569" src="569640631110992239.jpg" width="400"/></a><div class="lightbox" id="img40"><a href="#"><img alt="拡大画像" src="569640631110992239.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０２５年９月７日（日）１４：００開演（１３：１５開場）
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-石﨑 真弥奈
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       劇音楽『エグモント』序曲／ベートーヴェン
-       <li>
-        イタリア奇想曲／チャイコフスキー
-        <li>
-         交響曲第9番 ホ短調 『新世界より』／ドヴォルザーク
-         
-    <li> アンコール
-    <ul>
-<li> 舞踏会の美女／ルロイ・アンダーソン
-    </li></ul>
-</li>
-</li>
-</li>
-</li></ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-    </div>
-<div class="concert">
-<h2>第７５回定期演奏会</h2>
-<div class="details">
-<a href="#img41"><img alt="" class="thumbnail" height="570" src="足立シティオーケストラ_写真_20251218_1.jpg" width="400"/></a><div class="lightbox" id="img41"><a href="#"><img alt="拡大画像" src="足立シティオーケストラ_写真_20251218_1.jpg"/></a></div>
-<a href="#img42"><img alt="" class="thumbnail" height="569" src="足立シティオーケストラ_写真_20251218_2.jpg" width="400"/></a><div class="lightbox" id="img42"><a href="#"><img alt="拡大画像" src="足立シティオーケストラ_写真_20251218_2.jpg"/></a></div>
-<table>
-<tr>
-<th>
-   演奏会詳細
-  </th>
-</tr>
-<tr>
-<td>
-<ul>
-<li>
-     日時：２０２６年３月１日（日）１４：００開演（１３：１５開場）
-    </li>
-<li>
-     場所：
-西新井文化ホール
-    </li>
-<li>
-     指揮：
-石﨑 真弥奈
-    </li>
-<li>
-     曲目：
-     <ul>
-<li>
-       交響曲第１番「春」／シューマン
-       <li>
-        交響曲第８番「ザ・グレイト」／シューベルト
-         
-    <li> アンコール
-    <ul>
-<li> 無言歌集 第5巻 第6曲 Op.62-6「春の歌」／メンデルスゾーン
-    </li></ul>
-</li>
-</li>
-</li>
-</li></ul>
-</li>
-</ul>
-</td>
-</tr>
-</table>
-</div>
-    </div>
+<!-- CONTROLS -->
+<div class="controls">
+  <p class="count-badge"><strong id="count">0</strong> 件の演奏会</p>
+  <button class="btn" id="collapseAll">すべて閉じる</button>
+  <button class="btn btn-primary" id="sortToggle">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 4l4-3 4 3M2 8l4 3 4-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    昇順で表示
+  </button>
 </div>
 
-<!-- 並べ替えボタン -->
-<div style="text-align:center; margin: 1rem;">
-  <button id="sortToggle">昇順で表示</button>
+<!-- CONCERT LIST -->
+<main class="concert-list" id="concertList"></main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="閉じる">×</button>
+  <img id="lightboxImg" src="" alt="ポスター拡大表示">
 </div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  © 足立シティオーケストラ
+</footer>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const container = document.getElementById("concerts"); // ラッパー要素
-    const concerts = Array.from(container.querySelectorAll(".concert"));
-    let isAsc = false; // 初期は降順
+// ===== DATA =====
+const concerts = [
+  {
+    id: 1, num: "第2回", title: "第２回定期演奏会",
+    date: "1989-09-15", venue: "足立文化会館",
+    conductor: "汐澤安彦、新井久雄",
+    program: [
+      "歌劇「シチリア島の夕べの祈り」序曲（ヴェルディ）",
+      "皇帝円舞曲（J.シュトラウスII世）",
+      "交響曲第１番（ベートーヴェン）",
+      "「カルメン」第１組曲（ビゼー）"
+    ],
+    encore: ["雷鳴と電光（J.シュトラウスII世）"]
+  },
+  {
+    id: 2, num: "第3回", title: "第３回定期演奏会",
+    date: "1990-03-21", venue: "足立文化会館",
+    conductor: "汐澤安彦",
+    program: [
+      "「ファウストの劫罰」よりハンガリー行進曲（ベルリオーズ）",
+      "管弦楽組曲第３番よりアリア（バッハ）",
+      "シンコペイテッド クロック（アンダーソン）",
+      "プリンク プレンク プランク（アンダーソン）",
+      "トランペット吹きの休日（アンダーソン）",
+      "交響曲第９番「新世界より」（ドヴォルザーク）"
+    ],
+    encore: ["ハンガリー舞曲第５番（ブラームス）"]
+  },
+  {
+    id: 3, num: "第4回", title: "第４回定期演奏会",
+    date: "1990-08-05", venue: "足立文化会館",
+    conductor: "汐澤安彦",
+    program: [
+      "歌劇「ローエングリン」より第３幕への前奏曲（ワーグナー）",
+      "ペルシャの市場（ケテルビー）",
+      "かじ屋のポルカ（ヨゼフ・シュトラウス）",
+      "美しき青きドナウ（J.シュトラウス）",
+      "交響曲第５番「運命」（ベートーヴェン）"
+    ],
+    encore: ["歌劇「カバレリア・ルスティカーナ」より間奏曲（マスカーニ）"]
+  },
+  {
+    id: 4, num: "第5回", title: "第５回定期演奏会",
+    date: "1990-12-02", venue: "足立文化会館",
+    conductor: "汐澤安彦",
+    program: [
+      "歌劇「フィガロの結婚」序曲（モーツァルト）",
+      "交響曲第８番「未完成」（シューベルト）",
+      "歌劇「マドンナの宝石」より間奏曲（フェラーリ）",
+      "歌劇「ファウスト」より舞踏組曲（グノー）"
+    ],
+    encore: ["「白鳥の湖」より情景（チャイコフスキー）"]
+  },
+  {
+    id: 5, num: "第6回", title: "第６回定期演奏会",
+    date: "1991-03-31", venue: "足立文化会館",
+    conductor: "汐澤安彦", soloist: "ヴァイオリン：漆原啓子",
+    program: [
+      "歌劇「セヴィリアの理髪師」序曲",
+      "ヴァイオリン協奏曲（メンデルスゾーン）",
+      "交響曲第８番（ドヴォルザーク）"
+    ],
+    encore: ["スラヴ舞曲 Op.46-8（ドヴォルザーク）", "ソルヴェーグの歌（グリーグ）"]
+  },
+  {
+    id: 6, num: "第7回", title: "第７回定期演奏会",
+    date: "1991-09-08", venue: "足立文化会館",
+    conductor: "汐澤安彦",
+    note: "この回より「足立シティオーケストラ」と団名を改称",
+    program: [
+      "楽劇「ニュルンベルグのマイスタージンガー」前奏曲（ワーグナー）",
+      "「アルルの女」第１組曲よりアダージェット（ビゼー）",
+      "組曲「水上の音楽」（ヘンデル）",
+      "交響曲第３９番（モーツァルト）",
+      "交響詩「フィンランディア」（シベリウス）"
+    ],
+    encore: ["ハンガリー舞曲第５番・第６番（ブラームス）"]
+  },
+  {
+    id: 7, num: "第8回", title: "第８回定期演奏会",
+    date: "1992-01-19", venue: "足立文化会館",
+    conductor: "汐澤安彦", soloist: "トランペット：津堅直弘",
+    program: [
+      "歌劇「アルジェのイタリア女」序曲（ロッシーニ）",
+      "交響曲第３５番「ハフナー」（モーツァルト）",
+      "トランペット協奏曲（ハイドン）",
+      "トランペット吹きの子守歌（アンダーソン）",
+      "歌劇「天国と地獄」序曲（オッフェンバック）"
+    ],
+    encore: ["美しき青きドナウ（J.シュトラウスII世）", "ラデッキー行進曲（J.シュトラウス）"]
+  },
+  {
+    id: 8, num: "第9回", title: "第９回定期演奏会",
+    date: "1992-10-25", venue: "足立区スイムスポーツセンター体育館",
+    conductor: "汐澤安彦", soloist: "マリンバ：藤井むつ子",
+    program: [
+      "歌劇「ローエングリン」第３幕への前奏曲（ワーグナー）",
+      "交響曲第６番「田園」（ベートーヴェン）",
+      "火華（朝吹英一）",
+      "チゴイエルワイゼン（サラサーテ）",
+      "組曲「くるみ割り人形」より行進曲・トレパーク・あし笛の踊り・花のワルツ（チャイコフスキー）"
+    ],
+    encore: ["白鳥の湖より情景（チャイコフスキー）", "バレエ「ガイーヌ」より剣の舞（ハチャトゥリアン）", "組曲「道化師」よりギャロップ（カバレフスキー）"]
+  },
+  {
+    id: 9, num: "第10回", title: "第１０回定期演奏会",
+    date: "1993-03-28", venue: "東京文化会館大ホール",
+    conductor: "汐澤安彦", soloist: "ヴァイオリン：漆原朝子",
+    program: [
+      "楽劇「ニュルンベルグのマイスタージンガー」第１幕前奏曲",
+      "ヴァイオリン協奏曲（ベートーヴェン）",
+      "交響曲第５番「運命」（ベートーヴェン）"
+    ],
+    encore: ["組曲「くるみ割り人形」より花のワルツ（チャイコフスキー）"]
+  },
+  {
+    id: 10, num: "第11回", title: "第１１回定期演奏会",
+    date: "1993-09-15", venue: "足立区スイムスポーツセンター体育館",
+    conductor: "汐澤安彦", soloist: "ホルン：松崎裕",
+    program: [
+      "歌劇「ルスランとリュドミラ」序曲（グリンカ）",
+      "アルルの女第１組曲（ビゼー）",
+      "ホルン協奏曲第３番（モーツァルト）",
+      "バレエ「眠りの森の美女」よりワルツ（チャイコフスキー）",
+      "交響詩「フィンランディア」（シベリウス）"
+    ],
+    encore: ["スラヴ舞曲 Op.46-8（ドヴォルザーク）", "歌劇「売られた花嫁」より道化師の踊り（スメタナ）"]
+  },
+  {
+    id: 11, num: "", title: "第１回柳原音楽祭",
+    date: "1993-10-17", venue: "足立区立柳原小学校体育館",
+    conductor: "汐澤安彦", tag: "community",
+    program: [
+      "わがまち足立（團伊玖磨）",
+      "歌劇「ルスランとリュドミラ」序曲",
+      "交響曲第５番「運命」より第１楽章（ベートーヴェン）",
+      "楽器紹介",
+      "ホルン協奏曲第３番より第１楽章（モーツァルト）",
+      "ハンガリー舞曲第５番（ブラームス）",
+      "スラヴ舞曲 Op.46-8（ドヴォルザーク）"
+    ],
+    encore: ["「白鳥の湖」より情景（チャイコフスキー）", "ラデッキー行進曲（J.シュトラウス）"]
+  },
+  {
+    id: 12, num: "", title: "ギャラクシティオープン記念コンサート",
+    date: "1994-03-27", venue: "西新井文化ホール",
+    conductor: "汐澤安彦、團伊玖磨", soloist: "ピアノ：仲道郁代", tag: "special",
+    program: [
+      "楽劇「ニュルンベルクのマイスタージンガー」第１幕前奏曲（ワーグナー）",
+      "ピアノ協奏曲（グリーグ）",
+      "管弦楽と合唱のための組曲「わが街に」（團伊玖磨）",
+      "華の街（團伊玖磨）"
+    ]
+  },
+  {
+    id: 13, num: "第12回", title: "第１２回定期演奏会",
+    date: "1994-09-15", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ヴァイオリン：久保陽子",
+    program: [
+      "歌劇「魔笛」序曲（モーツァルト）",
+      "ヴァイオリン協奏曲（ブルッフ）",
+      "交響曲第７番（ベートーヴェン）"
+    ],
+    encore: ["アリア（バッハ）", "歌劇「ローエングリン」第３幕前奏曲（ワーグナー）"]
+  },
+  {
+    id: 14, num: "第13回", title: "第１３回定期演奏会",
+    date: "1995-02-26", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "フルート：中野真理",
+    program: [
+      "歌劇「フィガロの結婚」序曲（モーツァルト）",
+      "フルート協奏曲第２番（モーツァルト）",
+      "交響曲第８番（ドヴォルザーク）"
+    ],
+    encore: ["スラヴ舞曲 Op.46-8（ドヴォルザーク）"]
+  },
+  {
+    id: 15, num: "第14回", title: "第１４回定期演奏会",
+    date: "1995-09-03", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "チェロ：長谷川陽子",
+    program: [
+      "「アルジェのイタリア女」序曲（ロッシーニ）",
+      "チェロ協奏曲（ハイドン）",
+      "交響曲第５番（チャイコフスキー）"
+    ],
+    encore: ["金と銀（レハール）"]
+  },
+  {
+    id: 16, num: "第15回", title: "第１５回定期演奏会",
+    date: "1996-03-02", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ピアノ：北川暁子",
+    program: [
+      "大学祝典序曲（ブラームス）",
+      "ピアノ協奏曲第２３番（モーツァルト）",
+      "交響曲第３番「英雄」（ベートーヴェン）"
+    ],
+    encore: ["「白鳥の湖」よりワルツ（チャイコフスキー）"]
+  },
+  {
+    id: 17, num: "第16回", title: "第１６回定期演奏会",
+    date: "1996-09-28", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "クラリネット：山本正治",
+    program: [
+      "「威風堂々」第１番（エルガー）",
+      "クラリネット小協奏曲（ウェーバー）",
+      "交響曲第１番（ブラームス）"
+    ]
+  },
+  {
+    id: 18, num: "第17回", title: "第１７回定期演奏会",
+    date: "1997-02-02", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ヴァイオリン：水野佐知香",
+    program: [
+      "歌劇「セヴィリアの理髪師」序曲（ロッシーニ）",
+      "ヴァイオリン協奏曲（メンデルスゾーン）",
+      "交響曲第９番「新世界より」（ドヴォルザーク）"
+    ],
+    encore: ["ハンガリー舞曲第５番"]
+  },
+  {
+    id: 19, num: "第18回", title: "第１８回定期演奏会",
+    date: "1997-09-14", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ヴァイオリン：豊嶋泰嗣、ヴィオラ：上田敏子",
+    program: [
+      "「ローマの謝肉祭」序曲（ベルリオーズ）",
+      "ヴァイオリンとヴィオラのための協奏交響曲（モーツァルト）",
+      "交響曲第４番（チャイコフスキー）"
+    ],
+    encore: ["「眠りの森の美女」よりワルツ（チャイコフスキー）"]
+  },
+  {
+    id: 20, num: "第19回", title: "第１９回定期演奏会",
+    date: "1998-03-01", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ピアノ：長尾洋史",
+    program: [
+      "ピアノ協奏曲第５番「皇帝」（ベートーヴェン）",
+      "交響曲第２番（ブラームス）"
+    ],
+    encore: ["ハンガリー舞曲第１番（ブラームス）"]
+  },
+  {
+    id: 21, num: "第20回", title: "第２０回定期演奏会",
+    date: "1998-09-13", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ファゴット：岡崎耕治",
+    program: [
+      "歌劇「ウィリアムテル」序曲（ロッシーニ）",
+      "ファゴット協奏曲（モーツァルト）",
+      "組曲「展覧会の絵」（ムソルグスキー＝ラヴェル編曲）"
+    ],
+    encore: ["舞踏会の美女（アンダーソン）"]
+  },
+  {
+    id: 22, num: "第21回", title: "創立10周年記念 第２１回定期演奏会",
+    date: "1999-03-07", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    soloist: "ソプラノ：秋元智子、アルト：神田静子、テノール：中鉢智、バリトン：今村雅彦、合唱：あだち第九合唱団",
+    tag: "special",
+    program: [
+      "わがまち足立（團伊玖磨）",
+      "楽劇「ニュルンベルクのマイスタージンガー」第１前奏曲（ワーグナー）",
+      "交響曲第９番「合唱付」（ベートーヴェン）"
+    ]
+  },
+  {
+    id: 23, num: "第22回", title: "第２２回定期演奏会",
+    date: "1999-09-12", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "歌劇「運命の力」序曲（ヴェルディ）",
+      "小組曲（ドビュッシー）",
+      "交響曲第６番「悲愴」（チャイコフスキー）"
+    ],
+    encore: ["「白鳥の湖」より情景（チャイコフスキー）"]
+  },
+  {
+    id: 24, num: "", title: "第７回柳原音楽祭",
+    date: "1999-11-07", venue: "足立区立柳原小学校体育館",
+    conductor: "汐澤安彦", tag: "community",
+    program: [
+      "歌劇「フィガロの結婚」序曲（モーツァルト）",
+      "アリア（バッハ）",
+      "ハンガリー舞曲第５番（ブラームス）",
+      "楽器紹介",
+      "歌劇「ウィリアム・テル」序曲（ロッシーニ）",
+      "交響曲第６番「悲愴」（チャイコフスキー）"
+    ],
+    encore: ["「白鳥の湖」より情景（チャイコフスキー）"]
+  },
+  {
+    id: 25, num: "第23回", title: "第２３回定期演奏会",
+    date: "2000-03-05", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ピアノ：東誠三",
+    program: [
+      "歌劇「絹のはしご」序曲（ロッシーニ）",
+      "ピアノ協奏曲第２番（ラフマニノフ）",
+      "交響曲第４番（ブラームス）"
+    ],
+    encore: ["ハンガリー舞曲第１番（ブラームス）"]
+  },
+  {
+    id: 26, num: "第24回", title: "第２４回定期演奏会",
+    date: "2000-09-10", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "歌劇「オベロン」序曲（ウェーバー）",
+      "交響曲第２９番（モーツァルト）",
+      "交響曲第５番「革命」（ショスタコーヴィチ）"
+    ],
+    encore: ["舞踏会の美女（アンダーソン）"]
+  },
+  {
+    id: 27, num: "第25回", title: "第２５回定期演奏会",
+    date: "2001-03-04", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ヴァイオリン：大谷康子",
+    program: [
+      "交響曲第８番（ベートーヴェン）",
+      "ヴァイオリン協奏曲（チャイコフスキー）",
+      "ボレロ（ラヴェル）"
+    ],
+    encore: ["歌劇「ローエングリン」第３幕前奏曲（ワーグナー）"]
+  },
+  {
+    id: 28, num: "第26回", title: "第２６回定期演奏会",
+    date: "2001-09-09", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "歌劇「ルスランとリュドミラ」序曲（グリンカ）",
+      "「ペールギュント」組曲（グリーグ）",
+      "交響組曲「シェエラザード」（リムスキー＝コルサコフ）"
+    ],
+    encore: ["ポルカ「雷鳴と電光」（J.シュトラウス）"]
+  },
+  {
+    id: 29, num: "第27回", title: "第２７回定期演奏会",
+    date: "2002-03-03", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "オーボエ：安原太武郎",
+    program: [
+      "交響詩「前奏曲」（リスト）",
+      "オーボエ協奏曲（モーツァルト）",
+      "交響曲第２番（シベリウス）"
+    ],
+    encore: ["「カレリア」組曲より（シベリウス）"]
+  },
+  {
+    id: 30, num: "第28回", title: "第２８回定期演奏会",
+    date: "2002-10-06", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "交響詩「はげ山の一夜」（ムソルグスキー）",
+      "「アルルの女」第２組曲（ビゼー）",
+      "交響曲第３番（ブラームス）"
+    ],
+    encore: ["金と銀（レハール）"]
+  },
+  {
+    id: 31, num: "", title: "歓喜の演 VOL.2「第九」",
+    date: "2002-11-17", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    soloist: "ソプラノ：林満理子、アルト：橋本恵子、テノール：高橋淳、バリトン：北村哲郎", tag: "special",
+    program: ["交響曲第９番「第九」（ベートーヴェン）"]
+  },
+  {
+    id: 32, num: "第29回", title: "第２９回定期演奏会",
+    date: "2003-03-02", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "チェロ：石川祐支",
+    program: [
+      "チェロ協奏曲（ドヴォルザーク）",
+      "交響曲第９番「新世界より」（ドヴォルザーク）"
+    ]
+  },
+  {
+    id: 33, num: "", title: "第６回ふれあいコンサート",
+    date: "2003-08-16", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", tag: "community",
+    program: [
+      "双頭の鷲の旗の下に（ワーグナー）",
+      "ビリーブ（杉本竜一）"
+    ]
+  },
+  {
+    id: 34, num: "第30回", title: "第３０回定期演奏会",
+    date: "2003-09-07", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "歌劇「ルスランとリュドミラ」序曲（グリンカ）",
+      "スペイン狂詩曲「エスパナ」（シャブリエ）",
+      "幻想交響曲 作品14（ベルリオーズ）"
+    ],
+    encore: ["オペラ「カヴァレリア・ルスティカーナ」より間奏曲（マスカーニ）"]
+  },
+  {
+    id: 35, num: "第31回", title: "第３１回定期演奏会",
+    date: "2004-03-07", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ピアノ：佐藤卓史",
+    program: [
+      "キャンディード序曲（バーンスタイン）",
+      "ピアノ協奏曲（グリーグ）",
+      "交響詩「中央アジアの平原より」（ボロディン）",
+      "幻想序曲「ロミオとジュリエット」（チャイコフスキー）"
+    ],
+    encore: ["バレエ組曲白鳥の湖より「情景」（チャイコフスキー）", "雷鳴と電光（J.シュトラウスII世）"]
+  },
+  {
+    id: 36, num: "第32回", title: "第３２回定期演奏会",
+    date: "2004-09-05", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ヴァイオリン：三溝健一",
+    program: [
+      "交響曲第４番 変ロ長調 Op.60（ベートーヴェン）",
+      "「カルメン組曲」抜粋（ビゼー）",
+      "スペイン奇想曲 Op.34（リムスキー＝コルサコフ）"
+    ],
+    encore: ["オペラ「カヴァレリア・ルスティカーナ」より間奏曲（マスカーニ）", "歌劇「ウィリアムテル」序曲（ロッシーニ）"]
+  },
+  {
+    id: 37, num: "", title: "第１２回柳原音楽祭",
+    date: "2004-10-31", venue: "千寿常東小学校体育館",
+    conductor: "浜津清仁", tag: "community",
+    program: [
+      "交響曲第４番（ベートーヴェン）",
+      "楽器紹介",
+      "カルメン組曲（ビゼー）"
+    ],
+    encore: ["オペラ「カヴァレリア・ルスティカーナ」より間奏曲（マスカーニ）", "歌劇「ウィリアムテル」序曲（ロッシーニ）"]
+  },
+  {
+    id: 38, num: "", title: "歓喜の演 vol.4「第九」",
+    date: "2004-12-12", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    soloist: "ソプラノ：林満理子、アルト：橋本恵子、テノール：馬場崇、バス：小野和彦", tag: "special",
+    program: ["第二部：交響曲第９番「合唱付」（ベートーヴェン）"]
+  },
+  {
+    id: 39, num: "第33回", title: "第３３回定期演奏会",
+    date: "2005-03-06", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ピアノ：佐藤卓史",
+    program: [
+      "エグモント序曲（ベートーヴェン）",
+      "ピアノ協奏曲第１番 変ホ長調 S.124（リスト）",
+      "交響曲第２番 ニ長調 Op.73（ブラームス）"
+    ],
+    encore: ["ハンガリー舞曲第６番（ブラームス）"]
+  },
+  {
+    id: 40, num: "第34回", title: "第３４回定期演奏会",
+    date: "2005-09-04", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "喜歌劇「こうもり」序曲（J.シュトラウス）",
+      "歌劇「ファウスト」舞踊組曲（グノー）",
+      "交響曲第５番（チャイコフスキー）"
+    ],
+    encore: ["バレエ組曲くるみ割り人形より「花のワルツ」（チャイコフスキー）"]
+  },
+  {
+    id: 41, num: "第35回", title: "第３５回定期演奏会",
+    date: "2006-03-05", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "交響詩「我が祖国」より「モルダウ」（スメタナ）",
+      "交響曲第４１番 ハ長調 K.551「ジュピター」（モーツァルト）",
+      "交響曲第１番 ハ短調 op.68（ブラームス）"
+    ],
+    encore: ["タイスの瞑想曲（マスネ）", "ハンガリー舞曲第１番（ブラームス）"]
+  },
+  {
+    id: 42, num: "第36回", title: "第３６回定期演奏会",
+    date: "2006-09-03", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "歌劇「どろぼうかささぎ」序曲（ロッシーニ）",
+      "バレエ音楽「ガイーヌ」より抜粋（ハチャトゥリアン）",
+      "交響曲第５番 ハ短調「運命」（ベートーヴェン）"
+    ],
+    encore: ["管弦楽組曲第３番より アリア（バッハ）", "舞踏会の美女（アンダーソン）"]
+  },
+  {
+    id: 43, num: "第37回", title: "第３７回定期演奏会",
+    date: "2007-03-04", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ピアノ：佐藤卓史",
+    program: [
+      "「ローマの謝肉祭」序曲（ベルリオーズ）",
+      "ピアノ協奏曲第１番（チャイコフスキー）",
+      "交響曲第８番（ドヴォルザーク）"
+    ],
+    encore: ["スラブ舞曲第８番（ドヴォルザーク）"]
+  },
+  {
+    id: 44, num: "第38回", title: "第３８回定期演奏会",
+    date: "2007-09-02", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "喜歌劇「詩人と農夫」序曲（スッペ）",
+      "歌劇「イーゴリ公」よりダッタン人の踊り（ボロディン）",
+      "交響曲 ニ短調（フランク）"
+    ],
+    encore: ["歌劇「カヴァレリア・ルスティカーナ」より間奏曲（マスカーニ）", "雷鳴と電光（シュトラウス）"]
+  },
+  {
+    id: 45, num: "第39回", title: "創立20周年記念第１弾 第３９回定期演奏会",
+    date: "2008-03-02", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    soloist: "ソプラノ：大貫裕子、アルト：藤井奈生子、テノール：藤牧正充、バリトン：浅井隆仁", tag: "special",
+    program: [
+      "行進曲「威風堂々」第１番（エルガー）",
+      "交響曲第９番 ニ短調「合唱」（ベートーヴェン）"
+    ]
+  },
+  {
+    id: 46, num: "第40回", title: "創立20周年記念第２弾 第４０回定期演奏会",
+    date: "2008-09-28", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", tag: "special",
+    program: [
+      "祝典序曲（ショスタコーヴィチ）",
+      "交響曲第４０番 ト短調（モーツァルト）",
+      "交響曲第４番 変ホ長調「ロマンティック」（ブルックナー）"
+    ],
+    encore: ["カヴァレリア・ルスティカーナより間奏曲（マスカーニ）"]
+  },
+  {
+    id: 47, num: "第41回", title: "第４１回定期演奏会",
+    date: "2009-03-08", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "楽劇「ニュルンベルクのマイスタージンガー」第１幕前奏曲（ワーグナー）",
+      "バレエ音楽「仮面舞踏会」（ハチャトゥリアン）",
+      "交響曲第９番「グレート」（シューベルト）"
+    ],
+    encore: ["「ガイーヌ」より「レズギンカ」（ハチャトゥリアン）"]
+  },
+  {
+    id: 48, num: "第42回", title: "第４２回定期演奏会",
+    date: "2009-09-06", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "レオノーレ序曲第３番（ベートーヴェン）",
+      "交響詩「前奏曲」（リスト）",
+      "交響曲第４番（チャイコフスキー）"
+    ]
+  },
+  {
+    id: 49, num: "第43回", title: "第４３回定期演奏会",
+    date: "2010-03-07", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    images: ["20100105030331219_1_original.gif"],
+    program: [
+      "序曲「フィンガルの洞窟」（メンデルスゾーン）",
+      "バレエ音楽「くるみ割り人形」より組曲（チャイコフスキー）",
+      "交響曲第１番「春」（シューマン）"
+    ],
+    encore: ["ハンガリー舞曲第１番（ブラームス）"]
+  },
+  {
+    id: 50, num: "第44回", title: "第４４回定期演奏会",
+    date: "2010-09-12", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    images: ["20100613231643532_1_original.jpg"],
+    program: [
+      "歌劇「運命の力」序曲（ヴェルディ）",
+      "交響曲第７番「未完成」（シューベルト）",
+      "交響曲第３番「英雄」（ベートーヴェン）"
+    ],
+    encore: ["ロザムンデ間奏曲（シューベルト）", "ハンガリー舞曲第５番（ブラームス）"]
+  },
+  {
+    id: 51, num: "第45回", title: "第４５回定期演奏会",
+    date: "2011-03-06", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "「魔弾の射手」序曲（ウェーバー）",
+      "バレエ音楽「コッペリア」（ドリーブ）",
+      "交響曲第６番「悲愴」（チャイコフスキー）"
+    ],
+    encore: ["バレエ音楽「眠れる森の美女」よりワルツ（チャイコフスキー）"]
+  },
+  {
+    id: 52, num: "第46回", title: "第４６回定期演奏会",
+    date: "2011-09-25", venue: "かつしかシンフォニーヒルズ モーツァルトホール",
+    conductor: "汐澤安彦",
+    images: ["2011052501140116_1.jpg"],
+    program: [
+      "歌劇「ナブッコ」序曲（ヴェルディ）",
+      "小組曲（ドビュッシー）",
+      "交響曲第４番（ブラームス）"
+    ],
+    encore: ["ハンガリー舞曲第６番（ブラームス）"]
+  },
+  {
+    id: 53, num: "第47回", title: "第４７回定期演奏会",
+    date: "2012-03-11", venue: "かつしかシンフォニーヒルズ モーツァルトホール",
+    conductor: "汐澤安彦",
+    images: ["20111128233811984_1_original.jpg","20111128233811984_2_original.jpg"],
+    program: [
+      "序曲「フィンランディア」（シベリウス）",
+      "組曲「ペール・ギュント」抜粋（グリーグ）",
+      "交響曲第５番「運命」（ベートーヴェン）"
+    ],
+    encore: ["歌劇「カヴァレリア・ルスティカーナ」より間奏曲（マスカーニ）", "トリッチ・トラッチ・ポルカ（J.シュトラウスII）"]
+  },
+  {
+    id: 54, num: "第48回", title: "第４８回定期演奏会",
+    date: "2012-09-17", venue: "かつしかシンフォニーヒルズ モーツァルトホール",
+    conductor: "汐澤安彦",
+    program: [
+      "交響組曲「シェヘラザード」（リムスキー＝コルサコフ）",
+      "組曲「ドリー」（フォーレ／アンリ・ラボー編）",
+      "「ルスランとリュドミラ」序曲（グリンカ）"
+    ],
+    encore: ["バレエ組曲「白鳥の湖」より「情景」・「ハンガリーの踊り（チャールダッシュ）」（チャイコフスキー）"]
+  },
+  {
+    id: 55, num: "第49回", title: "第４９回定期演奏会",
+    date: "2013-03-10", venue: "かつしかシンフォニーヒルズ モーツァルトホール",
+    conductor: "汐澤安彦", soloist: "ヴァイオリン独奏：大谷康子",
+    program: [
+      "歌劇「ヘンゼルとグレーテル」前奏曲（フンパーディンク）",
+      "ヴァイオリン協奏曲第１番（ブルッフ）",
+      "交響曲第９番「新世界より」（ドヴォルザーク）"
+    ],
+    encore: ["スラブ舞曲第８番（ドヴォルザーク）"]
+  },
+  {
+    id: 56, num: "第50回", title: "第５０回記念定期演奏会",
+    date: "2013-09-29", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", tag: "special",
+    images: ["20130320131409817_1_original.jpg","20130320131409817_2_original.jpg"],
+    program: [
+      "交響曲第２番（ベートーヴェン）",
+      "狂詩曲「スペイン」（シャブリエ）",
+      "組曲「火の鳥」(1919版)（ストラヴィンスキー）"
+    ],
+    encore: ["歌劇「ローエングリン」第３幕前奏曲（ワーグナー）"]
+  },
+  {
+    id: 57, num: "第51回", title: "第５１回定期演奏会",
+    date: "2014-03-02", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    program: [
+      "交響曲 ハ長調（ビゼー）",
+      "歌劇「サムソンとデリラ」より バッカナール（サン＝サーンス）",
+      "バレエ音楽「白鳥の湖」抜粋（チャイコフスキー）"
+    ]
+  },
+  {
+    id: 58, num: "第52回", title: "第５２回定期演奏会",
+    date: "2014-09-07", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "マリンバ：岩見玲奈",
+    images: ["20140303064059969_1_original.jpg","20140303064059969_2_original.jpg"],
+    program: [
+      "ゴジラ・ファンタジー（伊福部昭／和田薫編曲）",
+      "マリンバとオーケストラのための「ラウダ・コンチェルタータ」（伊福部昭）",
+      "交響曲第５番（ショスタコーヴィチ）"
+    ],
+    encore: ["カヴァレリア・ルスティカーナより間奏曲（マスカーニ）", "組曲「道化師」よりギャロップ（カバレフスキー）"]
+  },
+  {
+    id: 59, num: "第53回", title: "第５３回定期演奏会",
+    date: "2015-03-01", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    images: ["20150107195550877_1_original.jpg","20150107195550877_2_original.jpg"],
+    program: [
+      "スラブ行進曲（チャイコフスキー）",
+      "バレエ音楽「ロメオとジュリエット」抜粋（プロコフィエフ）",
+      "交響曲第３番「ライン」（シューマン）"
+    ],
+    encore: ["子供の情景より「トロイメライ」（シューマン）", "歌劇「売られた花嫁」より「道化師の踊り」（スメタナ）"]
+  },
+  {
+    id: 60, num: "第54回", title: "第５４回定期演奏会",
+    date: "2015-09-06", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    images: ["20150302233411898_1_original.jpg","20150302233411898_2_original.jpg"],
+    program: [
+      "悪魔の踊り（ヘルメスベルガー二世）",
+      "バレエ音楽「三角帽子」第二組曲（ファリャ）",
+      "交響曲第７番（ベートーヴェン）"
+    ],
+    encore: ["タイスの瞑想曲（マスネ）", "歌劇「ローエングリン」より第三幕への前奏曲（ワーグナー）"]
+  },
+  {
+    id: 61, num: "第55回", title: "第５５回定期演奏会",
+    date: "2016-03-06", venue: "すみだトリフォニーホール",
+    conductor: "汐澤安彦", soloist: "オルガン：室住素子",
+    images: ["20151128090205581_1_original.jpg","20151128090205581_2_original.jpg"],
+    program: [
+      "「エグモント」序曲（ベートーヴェン）",
+      "組曲「絵のような風景」（マスネ）",
+      "交響曲第３番「オルガン付き」（サン＝サーンス）"
+    ],
+    encore: ["主よ人の望みの喜びよ（バッハ）", "スラブ舞曲第９番（ドヴォルザーク）"]
+  },
+  {
+    id: 62, num: "第56回", title: "第５６回定期演奏会",
+    date: "2016-09-04", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "コントラバス：吉田聖也",
+    images: ["20160630052346373_1_original.jpg","20160630052346373_2_original.jpg"],
+    program: [
+      "交響詩「死の舞踏」（サン＝サーンス）",
+      "コントラバス協奏曲（クーセヴィツキー）",
+      "交響曲第５番（チャイコフスキー）"
+    ],
+    encore: ["バレエ「眠れる森の美女」よりワルツ（チャイコフスキー）"]
+  },
+  {
+    id: 63, num: "第57回", title: "第５７回定期演奏会",
+    date: "2017-03-12", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    images: ["20160912190837205_1_original.jpg","20160912190837205_2_original.jpg"],
+    program: [
+      "「ローマの謝肉祭」序曲（ベルリオーズ）",
+      "交響曲第38番「プラハ」（モーツァルト）",
+      "交響曲第８番（ドヴォルザーク）"
+    ],
+    encore: ["スラブ舞曲第１０番（ドヴォルザーク）", "スラブ舞曲第８番（ドヴォルザーク）"]
+  },
+  {
+    id: 64, num: "第58回", title: "第５８回定期演奏会",
+    date: "2017-09-03", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    images: ["2017031506281476_1_original.jpg","2017031506281476_2_original.jpg"],
+    program: [
+      "歌劇「アルジェのイタリア女」序曲（ロッシーニ）",
+      "幻想序曲「ロメオとジュリエット」（チャイコフスキー）",
+      "交響曲第２番（ブラームス）"
+    ],
+    encore: ["ハンガリー舞曲第４番（ブラームス）"]
+  },
+  {
+    id: 65, num: "第59回", title: "第５９回定期演奏会",
+    date: "2018-03-04", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    images: ["2017090406292923_1_original.jpg","2017090406292923_2_original.jpg"],
+    program: [
+      "歌劇「詩人と農夫」序曲（スッペ）",
+      "カレリア組曲（シベリウス）",
+      "交響曲第１番（シベリウス）"
+    ],
+    encore: ["タイスの瞑想曲（マスネ）", "舞踏会の美女（アンダーソン）"]
+  },
+  {
+    id: 66, num: "第60回", title: "第６０回記念定期演奏会",
+    date: "2018-09-09", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "ピアノ独奏：佐藤卓史", tag: "special",
+    images: ["20180317072348918_1_original.jpg","20180317072348918_2_original.jpg"],
+    program: [
+      "ピアノ協奏曲第５番「皇帝」（ベートーヴェン）",
+      "交響詩「中央アジアの草原にて」（ボロディン）",
+      "大序曲「1812年」（チャイコフスキー）"
+    ],
+    encore: ["エニグマ変奏曲より「ニムロッド」（エルガー）"]
+  },
+  {
+    id: 67, num: "第61回", title: "創立30周年 第６１回定期演奏会",
+    date: "2019-03-09", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "トランペット独奏：アンドレ・アンリ", tag: "special",
+    images: ["20190113154228753_1_original.jpg","20190113154228753_2_original.jpg"],
+    program: [
+      "アルジェリア組曲より「フランス軍隊行進曲」（サン＝サーンス）",
+      "トランペット協奏曲（アルチュニアン）",
+      "交響曲第７番（ドヴォルザーク）"
+    ],
+    encore: ["スラブ舞曲第１番（ドヴォルザーク）"]
+  },
+  {
+    id: 68, num: "", title: "室内楽演奏会 2019",
+    date: "2019-06-23", venue: "足立区竹ノ塚地域学習センター4階ホール",
+    tag: "chamber",
+    program: [
+      "フルート四重奏曲（モーツァルト）",
+      "セレナード第１０番「グラン・パルティータ」（モーツァルト）",
+      "弦楽のための交響曲第９番「スイス」（メンデルスゾーン）、他"
+    ]
+  },
+  {
+    id: 69, num: "第62回", title: "第６２回定期演奏会",
+    date: "2019-09-07", venue: "すみだトリフォニーホール",
+    conductor: "汐澤安彦",
+    images: ["20190315061847988_1_original.jpg","20190315061847988_2_original.jpg"],
+    program: [
+      "交響曲第７番「未完成」（シューベルト）",
+      "交響曲第１番「巨人」（マーラー）"
+    ],
+    encore: ["エニグマ変奏曲より「ニムロッド」（エルガー）"]
+  },
+  {
+    id: 70, num: "第63回", title: "第６３回定期演奏会",
+    date: "2020-03-01", cancelled: true,
+    conductor: "汐澤安彦", soloist: "チェロ独奏：上朱可里",
+    images: ["20190908230625433_1_original.jpg","20190908230625433_2_original.jpg"],
+    program: [
+      "大学祝典序曲（ブラームス）",
+      "チェロ協奏曲（エルガー）",
+      "交響曲第１番（ブラームス）"
+    ]
+  },
+  {
+    id: 71, num: "第66回", title: "第６６回定期演奏会",
+    date: "2021-09-05", cancelled: true,
+    conductor: "汐澤安彦",
+    images: ["20210810205427506_1_original.jpg","20210810205427506_2_original.jpg"],
+    program: [
+      "交響曲第４０番 ト短調（モーツァルト）",
+      "交響曲第６番 ロ短調「悲愴」（チャイコフスキー）"
+    ]
+  },
+  {
+    id: 72, num: "", title: "室内楽演奏会 2021",
+    date: "2021-11-28", venue: "竹の塚地域センター 4Fホール",
+    tag: "chamber",
+    images: ["20211126215117570_1_original.jpeg"],
+    program: [
+      "音楽の楽しみ（パッヘルベル）",
+      "「ハウルの動く城」メドレー他（久石譲）",
+      "グランド・カルテット（クーラウ）",
+      "ケーゲルシュタット・トリオ（モーツァルト）",
+      "ディベルティメント（ベルナール）",
+      "ホルベルク組曲（グリーグ）"
+    ]
+  },
+  {
+    id: 73, num: "第68回", title: "第６８回定期演奏会",
+    date: "2022-09-04", venue: "西新井文化ホール",
+    conductor: "三溝健一",
+    images: ["20220721091648736_1_original.jpeg"],
+    program: [
+      "序曲「謝肉祭」作品92（ドヴォルザーク）",
+      "スラブ舞曲集より第１番・第10番・第８番（ドヴォルザーク）",
+      "交響曲第３番 作品90（ブラームス）"
+    ],
+    encore: ["ハンガリー舞曲第６番（ブラームス）"]
+  },
+  {
+    id: 74, num: "第69回", title: "第６９回定期演奏会",
+    date: "2023-03-05", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    images: ["20230224214226974_1_original.jpeg","20230224214226974_2_original.jpeg"],
+    program: [
+      "歌劇「魔笛」序曲（モーツァルト）",
+      "連作交響詩「我が祖国」より「モルダウ」（スメタナ）",
+      "交響曲第４番 ニ短調 作品120（シューマン）"
+    ],
+    encore: ["エニグマ変奏曲より「ニムロッド」（エルガー）"]
+  },
+  {
+    id: 75, num: "第70回", title: "第７０回定期演奏会",
+    date: "2023-09-03", venue: "西新井文化ホール",
+    conductor: "汐澤安彦", soloist: "チェロ独奏：上朱可里",
+    images: ["20230510045632433_1_original.jpeg","20230510045632433_2_original.jpeg"],
+    program: [
+      "チェロ協奏曲（ドヴォルザーク）",
+      "交響曲第５番「宗教改革」（メンデルスゾーン）"
+    ]
+  },
+  {
+    id: 76, num: "第71回", title: "第７１回定期演奏会",
+    date: "2024-03-03", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    images: ["20231229181243113_1_original.jpg","20231229181243113_2_original.jpg"],
+    program: [
+      "「フィンガルの洞窟」序曲（メンデルスゾーン）",
+      "ハンガリー狂詩曲第２番（リスト／ミューラー編）",
+      "交響曲第４番（チャイコフスキー）"
+    ],
+    encore: ["バレエ音楽「くるみ割り人形」より『花のワルツ』（チャイコフスキー）"]
+  },
+  {
+    id: 77, num: "第72回", title: "第７２回定期演奏会",
+    date: "2024-09-01", venue: "西新井文化ホール",
+    conductor: "汐澤安彦",
+    images: ["20240728175058293_1_original.jpg","20240728175058293_2_original.jpg"],
+    program: [
+      "威風堂々第１番（エルガー）",
+      "交響曲第３５番「ハフナー」（モーツァルト）",
+      "交響曲第４番（ブラームス）"
+    ],
+    encore: ["ハンガリー舞曲第６番（ブラームス）"]
+  },
+  {
+    id: 78, num: "第73回", title: "第７３回定期演奏会",
+    date: "2025-03-02", venue: "西新井文化ホール",
+    conductor: "三溝健一（故 汐澤安彦 に代わり）",
+    note: "客演コンサートミストレス：民谷香子",
+    images: ["20250105234136884_1_original.jpg","20250105234136884_2_original.jpg"],
+    program: [
+      "歌劇「オイリアンテ」序曲（ウェーバー）",
+      "交響譚詩（伊福部昭）",
+      "交響曲第２番（シベリウス）"
+    ],
+    encore: ["エニグマ変奏曲より「ニムロッド」（エルガー）"]
+  },
+  {
+    id: 79, num: "第74回", title: "第７４回定期演奏会",
+    date: "2025-09-07", venue: "西新井文化ホール",
+    conductor: "石﨑真弥奈",
+    images: ["569640631228694887.jpg","569640631110992239.jpg"],
+    program: [
+      "劇音楽『エグモント』序曲（ベートーヴェン）",
+      "イタリア奇想曲（チャイコフスキー）",
+      "交響曲第９番 ホ短調『新世界より』（ドヴォルザーク）"
+    ],
+    encore: ["舞踏会の美女（ルロイ・アンダーソン）"]
+  },
+  {
+    id: 80, num: "第75回", title: "第７５回定期演奏会",
+    date: "2026-03-01", venue: "西新井文化ホール",
+    conductor: "石﨑真弥奈",
+    images: ["足立シティオーケストラ_写真_20251218_1.jpg","足立シティオーケストラ_写真_20251218_2.jpg"],
+    program: [
+      "交響曲第１番「春」（シューマン）",
+      "交響曲第８番「ザ・グレイト」（シューベルト）"
+    ],
+    encore: ["無言歌集 第5巻 第6曲 Op.62-6「春の歌」（メンデルスゾーン）"]
+  }
+];
 
-    const button = document.getElementById("sortToggle");
+// ===== HELPERS =====
+function parseDate(str) { return new Date(str); }
+function formatYear(str) { return str.slice(0,4); }
+function formatMonthDay(str) {
+  const d = new Date(str);
+  const m = d.getMonth() + 1;
+  const day = d.getDate();
+  return `${m}/${day}`;
+}
 
-    function renderConcerts(list) {
-      // いったんクリアしてから並べ替えを追加
-      container.innerHTML = "";
-      list.forEach(concert => container.appendChild(concert));
+// ===== STATE =====
+let ascending = false;
+
+function getSorted() {
+  const arr = [...concerts];
+  return ascending ? arr : arr.reverse();
+}
+
+// ===== RENDER =====
+function render() {
+  const list = document.getElementById('concertList');
+  const sorted = getSorted();
+  list.innerHTML = '';
+  document.getElementById('count').textContent = sorted.length;
+
+  let lastYear = null;
+
+  sorted.forEach(c => {
+    const year = formatYear(c.date);
+
+    if (year !== lastYear) {
+      const div = document.createElement('div');
+      div.className = 'year-divider';
+      div.innerHTML = `<span class="year-label">${year}</span><span class="year-line"></span>`;
+      list.appendChild(div);
+      lastYear = year;
     }
 
-    // 初期表示を降順にする
-    renderConcerts([...concerts].reverse());
+    const card = document.createElement('div');
+    card.className = 'concert-card' + (c.cancelled ? ' cancelled' : '');
+    card.dataset.id = c.id;
 
-    button.addEventListener("click", function() {
-      isAsc = !isAsc;
-      if (isAsc) {
-        button.textContent = "降順で表示";
-        renderConcerts([...concerts]);
-      } else {
-        button.textContent = "昇順で表示";
-        renderConcerts([...concerts].reverse());
-      }
+    // tags
+    let tagHtml = '';
+    if (c.cancelled) tagHtml += `<span class="tag tag-cancelled">公演中止</span>`;
+    if (c.tag === 'special') tagHtml += `<span class="tag tag-special">特別演奏会</span>`;
+    if (c.tag === 'chamber') tagHtml += `<span class="tag tag-chamber">室内楽</span>`;
+    if (c.tag === 'community') tagHtml += `<span class="tag tag-special">地域コンサート</span>`;
+
+    // poster image badge on card header
+    const hasImages = c.images && c.images.length > 0;
+    const imageBadge = hasImages
+      ? `<span class="meta-item"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 8l3-3 2.5 2.5L9 5l2 3" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>ポスターあり</span>`
+      : '';
+
+    // program items
+    let programHtml = c.program.map(p =>
+      `<li class="program-item">${escHtml(p)}</li>`
+    ).join('');
+
+    let encoreHtml = '';
+    if (c.encore && c.encore.length) {
+      encoreHtml = `<p class="encore-label">アンコール</p>
+        <ul class="program-list">
+          ${c.encore.map(e => `<li class="program-item encore">${escHtml(e)}</li>`).join('')}
+        </ul>`;
+    }
+
+    // detail grid rows
+    let detailRows = '';
+    if (c.venue && !c.cancelled) detailRows += `<span class="detail-label">会場</span><span class="detail-value">${escHtml(c.venue)}</span>`;
+    if (c.conductor) detailRows += `<span class="detail-label">指揮</span><span class="detail-value">${escHtml(c.conductor)}</span>`;
+    if (c.soloist) detailRows += `<span class="detail-label">独奏</span><span class="detail-value">${escHtml(c.soloist)}</span>`;
+    if (c.note) detailRows += `<span class="detail-label">備考</span><span class="detail-value">${escHtml(c.note)}</span>`;
+
+    // poster section
+    let posterHtml = '';
+    if (hasImages) {
+      const thumbs = c.images.map(src =>
+        `<div class="poster-thumb" data-src="${escHtml(src)}" role="button" tabindex="0" aria-label="ポスターを拡大表示">
+          <img src="${escHtml(src)}" alt="${escHtml(c.title)} ポスター" loading="lazy">
+        </div>`
+      ).join('');
+      posterHtml = `
+        <div class="poster-section">
+          <p class="poster-heading">ポスター</p>
+          <div class="poster-grid">${thumbs}</div>
+        </div>`;
+    } else {
+      // プレースホルダー（画像なし）
+      posterHtml = `
+        <div class="poster-section">
+          <p class="poster-heading">ポスター</p>
+          <div class="poster-grid">
+            <div class="poster-placeholder">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 13l5-5 4 4 3-3 4 4" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              <span>準備中</span>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    card.innerHTML = `
+      <button class="card-header" aria-expanded="false">
+        <div class="card-date-col">
+          <div class="card-year">${year}</div>
+          <div class="card-month-day">${formatMonthDay(c.date)}</div>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-main">
+          <div class="card-title">${escHtml(c.title)}</div>
+          <div class="card-meta">
+            ${c.venue && !c.cancelled ? `<span class="meta-item"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1a3.5 3.5 0 0 1 3.5 3.5C9.5 7.5 6 11 6 11S2.5 7.5 2.5 4.5A3.5 3.5 0 0 1 6 1z" stroke="currentColor" stroke-width="1.2"/><circle cx="6" cy="4.5" r="1" fill="currentColor"/></svg><span class="venue-text">${escHtml(c.venue)}</span></span>` : ''}
+            ${imageBadge}
+            ${tagHtml}
+          </div>
+        </div>
+        <svg class="card-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="card-body">
+        <div class="card-body-inner">
+          ${detailRows ? `<div class="detail-grid">${detailRows}</div>` : ''}
+          <div class="program-section">
+            <p class="program-heading">プログラム</p>
+            <ul class="program-list">${programHtml}</ul>
+            ${encoreHtml}
+          </div>
+          ${posterHtml}
+        </div>
+      </div>
+    `;
+
+    // accordion toggle
+    card.querySelector('.card-header').addEventListener('click', () => {
+      card.classList.toggle('open');
+      const expanded = card.classList.contains('open');
+      card.querySelector('.card-header').setAttribute('aria-expanded', expanded);
     });
+
+    // poster lightbox
+    card.querySelectorAll('.poster-thumb').forEach(thumb => {
+      const openLightbox = () => openLightboxWith(thumb.dataset.src);
+      thumb.addEventListener('click', openLightbox);
+      thumb.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(); } });
+    });
+
+    list.appendChild(card);
   });
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ===== LIGHTBOX =====
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxClose = document.getElementById('lightboxClose');
+
+function openLightboxWith(src) {
+  lightboxImg.src = src;
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  lightboxClose.focus();
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+  lightboxImg.src = '';
+}
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox(); });
+
+// ===== CONTROLS =====
+document.getElementById('sortToggle').addEventListener('click', () => {
+  ascending = !ascending;
+  document.getElementById('sortToggle').innerHTML = ascending
+    ? `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4-3 4 3M2 8l4 3 4-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> 降順で表示`
+    : `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4-3 4 3M2 8l4 3 4-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> 昇順で表示`;
+  render();
+});
+
+document.getElementById('collapseAll').addEventListener('click', () => {
+  document.querySelectorAll('.concert-card.open').forEach(c => {
+    c.classList.remove('open');
+    c.querySelector('.card-header').setAttribute('aria-expanded', 'false');
+  });
+});
+
+render();
 </script>
-
 </body>
-
-    
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

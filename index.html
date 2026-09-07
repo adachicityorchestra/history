@@ -1616,3 +1616,203 @@ const concerts = [
     encore: ["アンダンテ・フェスティーボ（シベリウス）"]
   }
 ];
+
+  
+// ===== HELPERS =====
+function parseDate(str) { return new Date(str); }
+function formatYear(str) { return str.slice(0,4); }
+function formatMonthDay(str) {
+  const d = new Date(str);
+  const m = d.getMonth() + 1;
+  const day = d.getDate();
+  return `${m}/${day}`;
+}
+
+// ===== STATE =====
+let ascending = false;
+
+function getSorted() {
+  const arr = [...concerts];
+  return ascending ? arr : arr.reverse();
+}
+
+// ===== RENDER =====
+function render() {
+  const list = document.getElementById('concertList');
+  const sorted = getSorted();
+  list.innerHTML = '';
+  document.getElementById('count').textContent = sorted.length;
+
+  let lastYear = null;
+
+  sorted.forEach(c => {
+    const year = formatYear(c.date);
+
+    if (year !== lastYear) {
+      const div = document.createElement('div');
+      div.className = 'year-divider';
+      div.innerHTML = `<span class="year-label">${year}</span><span class="year-line"></span>`;
+      list.appendChild(div);
+      lastYear = year;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'concert-card' + (c.cancelled ? ' cancelled' : '');
+    card.dataset.id = c.id;
+
+    // tags
+    let tagHtml = '';
+    if (c.cancelled) tagHtml += `<span class="tag tag-cancelled">公演中止</span>`;
+    if (c.tag === 'special') tagHtml += `<span class="tag tag-special">特別演奏会</span>`;
+    if (c.tag === 'chamber') tagHtml += `<span class="tag tag-chamber">室内楽</span>`;
+    if (c.tag === 'community') tagHtml += `<span class="tag tag-special">地域コンサート</span>`;
+
+    // poster image badge on card header
+    const hasImages = c.images && c.images.length > 0;
+    const imageBadge = hasImages
+      ? `<span class="meta-item"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 8l3-3 2.5 2.5L9 5l2 3" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>ポスターあり</span>`
+      : '';
+
+    // program items
+    let programHtml = c.program.map(p =>
+      `<li class="program-item">${escHtml(p)}</li>`
+    ).join('');
+
+    let encoreHtml = '';
+    if (c.encore && c.encore.length) {
+      encoreHtml = `<p class="encore-label">アンコール</p>
+        <ul class="program-list">
+          ${c.encore.map(e => `<li class="program-item encore">${escHtml(e)}</li>`).join('')}
+        </ul>`;
+    }
+
+    // detail grid rows
+    let detailRows = '';
+    if (c.venue && !c.cancelled) detailRows += `<span class="detail-label">会場</span><span class="detail-value">${escHtml(c.venue)}</span>`;
+    if (c.conductor) detailRows += `<span class="detail-label">指揮</span><span class="detail-value">${escHtml(c.conductor)}</span>`;
+    if (c.soloist) detailRows += `<span class="detail-label">独奏</span><span class="detail-value">${escHtml(c.soloist)}</span>`;
+    if (c.note) detailRows += `<span class="detail-label">備考</span><span class="detail-value">${escHtml(c.note)}</span>`;
+
+    // poster section
+    let posterHtml = '';
+    if (hasImages) {
+      const thumbs = c.images.map(src =>
+        `<div class="poster-thumb" data-src="${escHtml(src)}" role="button" tabindex="0" aria-label="ポスターを拡大表示">
+          <img src="${escHtml(src)}" alt="${escHtml(c.title)} ポスター" loading="lazy">
+        </div>`
+      ).join('');
+      posterHtml = `
+        <div class="poster-section">
+          <p class="poster-heading">ポスター</p>
+          <div class="poster-grid">${thumbs}</div>
+        </div>`;
+    } else {
+      // プレースホルダー（画像なし）
+      posterHtml = `
+        <div class="poster-section">
+          <p class="poster-heading">ポスター</p>
+          <div class="poster-grid">
+            <div class="poster-placeholder">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 13l5-5 4 4 3-3 4 4" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              <span>準備中</span>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    card.innerHTML = `
+      <button class="card-header" aria-expanded="false">
+        <div class="card-date-col">
+          <div class="card-year">${year}</div>
+          <div class="card-month-day">${formatMonthDay(c.date)}</div>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-main">
+          <div class="card-title">${escHtml(c.title)}</div>
+          <div class="card-meta">
+            ${c.venue && !c.cancelled ? `<span class="meta-item"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1a3.5 3.5 0 0 1 3.5 3.5C9.5 7.5 6 11 6 11S2.5 7.5 2.5 4.5A3.5 3.5 0 0 1 6 1z" stroke="currentColor" stroke-width="1.2"/><circle cx="6" cy="4.5" r="1" fill="currentColor"/></svg><span class="venue-text">${escHtml(c.venue)}</span></span>` : ''}
+            ${imageBadge}
+            ${tagHtml}
+          </div>
+        </div>
+        <svg class="card-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="card-body">
+        <div class="card-body-inner">
+          ${detailRows ? `<div class="detail-grid">${detailRows}</div>` : ''}
+          <div class="program-section">
+            <p class="program-heading">プログラム</p>
+            <ul class="program-list">${programHtml}</ul>
+            ${encoreHtml}
+          </div>
+          ${posterHtml}
+        </div>
+      </div>
+    `;
+
+    // accordion toggle
+    card.querySelector('.card-header').addEventListener('click', () => {
+      card.classList.toggle('open');
+      const expanded = card.classList.contains('open');
+      card.querySelector('.card-header').setAttribute('aria-expanded', expanded);
+    });
+
+    // poster lightbox
+    card.querySelectorAll('.poster-thumb').forEach(thumb => {
+      const openLightbox = () => openLightboxWith(thumb.dataset.src);
+      thumb.addEventListener('click', openLightbox);
+      thumb.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(); } });
+    });
+
+    list.appendChild(card);
+  });
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ===== LIGHTBOX =====
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxClose = document.getElementById('lightboxClose');
+
+function openLightboxWith(src) {
+  lightboxImg.src = src;
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  lightboxClose.focus();
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+  lightboxImg.src = '';
+}
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox(); });
+
+// ===== CONTROLS =====
+document.getElementById('sortToggle').addEventListener('click', () => {
+  ascending = !ascending;
+  document.getElementById('sortToggle').innerHTML = ascending
+    ? `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4-3 4 3M2 8l4 3 4-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> 降順で表示`
+    : `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4-3 4 3M2 8l4 3 4-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> 昇順で表示`;
+  render();
+});
+
+document.getElementById('collapseAll').addEventListener('click', () => {
+  document.querySelectorAll('.concert-card.open').forEach(c => {
+    c.classList.remove('open');
+    c.querySelector('.card-header').setAttribute('aria-expanded', 'false');
+  });
+});
+
+render();
+</script>
+</body>
+</html>

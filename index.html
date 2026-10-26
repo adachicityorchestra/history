@@ -650,8 +650,34 @@
 // ===== DATA =====
 const concerts = [
   {
+    id: 85, num: "", title: "足立区民オーケストラ 発足記念コンサート",
+    date: "1988-09-15", venue: "足立文化会館", tag: "special",
+    images: ["special_1988-09-15_founding.jpg"],
+    program: [
+      "威風堂々（エルガー）",
+      "フィンランディア（シベリウス）",
+      "「アルルの女」第２組曲（ビゼー）",
+      "ニュルンベルクのマイスタージンガー（ワーグナー）",
+      "【木管五重奏】古代様式の舞踊組曲（デゼール）",
+      "【金管五重奏】４つのスイスのメロディより（スイス民謡）"
+    ]
+  },
+  {
+    id: 86, num: "第1回", title: "第１回定期演奏会",
+    date: "1989-03-21", venue: "足立文化会館",
+    conductor: "團伊玖磨（客演）、小野照三",
+    images: ["regular-01_1989-03-21.jpg"],
+    program: [
+      "わがまち足立（團伊玖磨）",
+      "交響曲第４０番（モーツァルト）",
+      "「カレリア」組曲（シベリウス）",
+      "交響詩「前奏曲」（リスト）"
+    ]
+  },
+  {
     id: 1, num: "第2回", title: "第２回定期演奏会",
     date: "1989-09-15", venue: "足立文化会館",
+    images: ["regular-02_1989-09-15.jpg"],
     conductor: "汐澤安彦、新井久雄",
     program: [
       "歌劇「シチリア島の夕べの祈り」序曲（ヴェルディ）",
@@ -664,6 +690,7 @@ const concerts = [
   {
     id: 2, num: "第3回", title: "第３回定期演奏会",
     date: "1990-03-21", venue: "足立文化会館",
+    images: ["regular-03_1990-03-21.jpg"],
     conductor: "汐澤安彦",
     program: [
       "「ファウストの劫罰」よりハンガリー行進曲（ベルリオーズ）",
@@ -678,6 +705,7 @@ const concerts = [
   {
     id: 3, num: "第4回", title: "第４回定期演奏会",
     date: "1990-08-05", venue: "足立文化会館",
+    images: ["regular-04_1990-08-05.jpg"],
     conductor: "汐澤安彦",
     program: [
       "歌劇「ローエングリン」より第３幕への前奏曲（ワーグナー）",
@@ -691,6 +719,7 @@ const concerts = [
   {
     id: 4, num: "第5回", title: "第５回定期演奏会",
     date: "1990-12-02", venue: "足立文化会館",
+    images: ["regular-05_1990-12-02.jpg"],
     conductor: "汐澤安彦",
     program: [
       "歌劇「フィガロの結婚」序曲（モーツァルト）",
@@ -703,6 +732,7 @@ const concerts = [
   {
     id: 5, num: "第6回", title: "第６回定期演奏会",
     date: "1991-03-31", venue: "足立文化会館",
+    images: ["regular-06_1991-03-31.jpg"],
     conductor: "汐澤安彦", soloist: "ヴァイオリン：漆原啓子",
     program: [
       "歌劇「セヴィリアの理髪師」序曲",
@@ -714,6 +744,7 @@ const concerts = [
   {
     id: 6, num: "第7回", title: "第７回定期演奏会",
     date: "1991-09-08", venue: "足立文化会館",
+    images: ["regular-07_1991-09-08.jpg"],
     conductor: "汐澤安彦",
     note: "この回より「足立シティオーケストラ」と団名を改称",
     program: [
@@ -728,6 +759,7 @@ const concerts = [
   {
     id: 7, num: "第8回", title: "第８回定期演奏会",
     date: "1992-01-19", venue: "足立文化会館",
+    images: ["regular-08_1992-01-19.jpg"],
     conductor: "汐澤安彦", soloist: "トランペット：津堅直弘",
     program: [
       "歌劇「アルジェのイタリア女」序曲（ロッシーニ）",
@@ -741,6 +773,7 @@ const concerts = [
   {
     id: 8, num: "第9回", title: "第９回定期演奏会",
     date: "1992-10-25", venue: "足立区スイムスポーツセンター体育館",
+    images: ["regular-09_1992-10-25.jpg"],
     conductor: "汐澤安彦", soloist: "マリンバ：藤井むつ子",
     program: [
       "歌劇「ローエングリン」第３幕への前奏曲（ワーグナー）",
@@ -754,6 +787,7 @@ const concerts = [
   {
     id: 9, num: "第10回", title: "第１０回定期演奏会",
     date: "1993-03-28", venue: "東京文化会館大ホール",
+    images: ["regular-10_1993-03-28_front.jpg","regular-10_1993-03-28_back.jpg"],
     conductor: "汐澤安彦", soloist: "ヴァイオリン：漆原朝子",
     program: [
       "楽劇「ニュルンベルグのマイスタージンガー」第１幕前奏曲",
@@ -765,6 +799,7 @@ const concerts = [
   {
     id: 10, num: "第11回", title: "第１１回定期演奏会",
     date: "1993-09-15", venue: "足立区スイムスポーツセンター体育館",
+    images: ["regular-11_1993-09-15.jpg"],
     conductor: "汐澤安彦", soloist: "ホルン：松崎裕",
     program: [
       "歌劇「ルスランとリュドミラ」序曲（グリンカ）",
@@ -804,6 +839,7 @@ const concerts = [
   {
     id: 13, num: "第12回", title: "第１２回定期演奏会",
     date: "1994-09-15", venue: "西新井文化ホール",
+    images: ["regular-12_1994-09-15_front.jpg","regular-12_1994-09-15_back.jpg"],
     conductor: "汐澤安彦", soloist: "ヴァイオリン：久保陽子",
     program: [
       "歌劇「魔笛」序曲（モーツァルト）",

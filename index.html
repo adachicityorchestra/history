@@ -441,6 +441,15 @@
     gap: 10px;
     flex-wrap: wrap;
   }
+  .audio-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+  .audio-heading {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    color: var(--text-muted); margin: 0 0 10px;
+  }
+  .audio-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .audio-item { display: flex; flex-direction: column; gap: 4px; }
+  .audio-label { font-size: 13px; line-height: 1.5; }
+  .audio-item audio { width: 100%; max-width: 420px; height: 36px; }
   .poster-thumb {
     position: relative;
     flex: 0 0 auto;
@@ -1156,7 +1165,13 @@ const concerts = [
       "交響曲第４１番 ハ長調 K.551「ジュピター」（モーツァルト）",
       "交響曲第１番 ハ短調 op.68（ブラームス）"
     ],
-    encore: ["タイスの瞑想曲（マスネ）", "ハンガリー舞曲第１番（ブラームス）"]
+    encore: ["タイスの瞑想曲（マスネ）", "ハンガリー舞曲第１番（ブラームス）"],
+    audio: [
+      { src: "regular-35_2006-03-05_moldau.m4a",  label: "「モルダウ」（スメタナ）抜粋" },
+      { src: "regular-35_2006-03-05_mozart.m4a",  label: "交響曲第４１番「ジュピター」（モーツァルト）抜粋" },
+      { src: "regular-35_2006-03-05_brahms1.m4a", label: "交響曲第１番（ブラームス）第１楽章 抜粋" },
+      { src: "regular-35_2006-03-05_brahms4.m4a", label: "交響曲第１番（ブラームス）第４楽章 抜粋" }
+    ]
   },
   {
     id: 42, num: "第36回", title: "第３６回定期演奏会",
@@ -1167,7 +1182,14 @@ const concerts = [
       "バレエ音楽「ガイーヌ」より抜粋（ハチャトゥリアン）",
       "交響曲第５番 ハ短調「運命」（ベートーヴェン）"
     ],
-    encore: ["管弦楽組曲第３番より アリア（バッハ）", "舞踏会の美女（アンダーソン）"]
+    encore: ["管弦楽組曲第３番より アリア（バッハ）", "舞踏会の美女（アンダーソン）"],
+    audio: [
+      { src: "regular-36_2006-09-03_rossini.mp3",    label: "歌劇「どろぼうかささぎ」序曲（ロッシーニ）抜粋" },
+      { src: "regular-36_2006-09-03_gayaneh1.mp3",   label: "「ガイーヌ」（ハチャトゥリアン）より 抜粋1" },
+      { src: "regular-36_2006-09-03_gayaneh3.mp3",   label: "「ガイーヌ」（ハチャトゥリアン）より 抜粋3" },
+      { src: "regular-36_2006-09-03_beethoven1.mp3", label: "交響曲第５番「運命」（ベートーヴェン）第１楽章 抜粋" },
+      { src: "regular-36_2006-09-03_beethoven4.mp3", label: "交響曲第５番「運命」（ベートーヴェン）第４楽章 抜粋" }
+    ]
   },
   {
     id: 43, num: "第37回", title: "第３７回定期演奏会",
@@ -1720,6 +1742,24 @@ function render() {
       ? `<span class="meta-item"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 8l3-3 2.5 2.5L9 5l2 3" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>ポスターあり</span>`
       : '';
 
+    const hasAudio = c.audio && c.audio.length > 0;
+    const audioBadge = hasAudio
+      ? `<span class="meta-item"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4.5h2l3-2.5v8L4 7.5H2z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><path d="M9 4a2.5 2.5 0 0 1 0 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>音源あり</span>`
+      : '';
+    let audioHtml = '';
+    if (hasAudio) {
+      audioHtml = `
+        <div class="audio-section">
+          <p class="audio-heading">録音</p>
+          <ul class="audio-list">
+            ${c.audio.map(a => `<li class="audio-item">
+              <span class="audio-label">${escHtml(a.label)}</span>
+              <audio controls preload="none" src="${escHtml(a.src)}"></audio>
+            </li>`).join('')}
+          </ul>
+        </div>`;
+    }
+
     // program items
     let programHtml = c.program.map(p =>
       `<li class="program-item">${escHtml(p)}</li>`
@@ -1779,6 +1819,7 @@ function render() {
           <div class="card-meta">
             ${c.venue && !c.cancelled ? `<span class="meta-item"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1a3.5 3.5 0 0 1 3.5 3.5C9.5 7.5 6 11 6 11S2.5 7.5 2.5 4.5A3.5 3.5 0 0 1 6 1z" stroke="currentColor" stroke-width="1.2"/><circle cx="6" cy="4.5" r="1" fill="currentColor"/></svg><span class="venue-text">${escHtml(c.venue)}</span></span>` : ''}
             ${imageBadge}
+            ${audioBadge}
             ${tagHtml}
           </div>
         </div>
@@ -1794,6 +1835,7 @@ function render() {
             <ul class="program-list">${programHtml}</ul>
             ${encoreHtml}
           </div>
+          ${audioHtml}
           ${posterHtml}
         </div>
       </div>
@@ -1822,6 +1864,12 @@ function escHtml(str) {
 }
 
 // ===== LIGHTBOX =====
+// 再生中の音源は1つだけにする
+document.addEventListener('play', e => {
+  if (e.target.tagName !== 'AUDIO') return;
+  document.querySelectorAll('audio').forEach(a => { if (a !== e.target) a.pause(); });
+}, true);
+
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
 const lightboxClose = document.getElementById('lightboxClose');

@@ -441,6 +441,16 @@
     gap: 10px;
     flex-wrap: wrap;
   }
+  .press-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+  .press-heading {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    color: var(--text-muted); margin: 0 0 10px;
+  }
+  .press-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .press-item { font-size: 13px; line-height: 1.5; }
+  .press-item a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  .press-date { color: var(--text-muted); margin-right: 8px; font-variant-numeric: tabular-nums; }
+  .press-note { font-size: 11px; color: var(--text-muted); margin: 8px 0 0; }
   .audio-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
   .audio-heading {
     font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
@@ -728,6 +738,12 @@ const concerts = [
   {
     id: 85, num: "", title: "足立区民オーケストラ 発足記念コンサート",
     date: "1988-09-15", venue: "足立文化会館", tag: "special",
+    press: [
+      { date: "1988-04-05", label: "区民オーケストラ楽団員の募集", url: "https://www.city.adachi.tokyo.jp/koho/19880405.html" },
+      { date: "1988-05-20", label: "結成のきっかけ（弘道小ジュニアオーケストラ）に触れた記事", url: "https://www.city.adachi.tokyo.jp/koho/19880520.html" },
+      { date: "1988-08-20", label: "発足記念コンサートの告知", url: "https://www.city.adachi.tokyo.jp/koho/19880820.html" },
+      { date: "1988-10-20", label: "発足記念コンサートの報告（フォトニュース）", url: "https://www.city.adachi.tokyo.jp/koho/19881020.html" }
+    ],
     images: ["special_1988-09-15_founding.jpg"],
     program: [
       "威風堂々（エルガー）",
@@ -741,6 +757,10 @@ const concerts = [
   {
     id: 86, num: "第1回", title: "第１回定期演奏会",
     date: "1989-03-21", venue: "足立文化会館",
+    press: [
+      { date: "1988-11-20", label: "第1回定期演奏会の告知", url: "https://www.city.adachi.tokyo.jp/koho/19881120.html" },
+      { date: "1989-04-25", label: "第1回定期演奏会の報告（フォトニュース）", url: "https://www.city.adachi.tokyo.jp/koho/19890425.html" }
+    ],
     conductor: "團伊玖磨（客演）、小野照三",
     images: ["regular-01_1989-03-21.jpg"],
     program: [
@@ -753,6 +773,9 @@ const concerts = [
   {
     id: 1, num: "第2回", title: "第２回定期演奏会",
     date: "1989-09-15", venue: "足立文化会館",
+    press: [
+      { date: "1989-10-25", label: "第2回定期演奏会の報告（フォトニュース）", url: "https://www.city.adachi.tokyo.jp/koho/19891025.html" }
+    ],
     images: ["regular-02_1989-09-15.jpg"],
     conductor: "汐澤安彦、新井久雄",
     program: [
@@ -766,6 +789,9 @@ const concerts = [
   {
     id: 2, num: "第3回", title: "第３回定期演奏会",
     date: "1990-03-21", venue: "足立文化会館",
+    press: [
+      { date: "1989-12-25", label: "定期演奏会の告知（團伊玖磨氏を迎えて）", url: "https://www.city.adachi.tokyo.jp/koho/19891225.html" }
+    ],
     images: ["regular-03_1990-03-21.jpg"],
     conductor: "汐澤安彦",
     program: [
@@ -905,6 +931,9 @@ const concerts = [
   {
     id: 12, num: "", title: "ギャラクシティオープン記念コンサート",
     date: "1994-03-27", venue: "西新井文化ホール",
+    press: [
+      { date: "1994-02-15", label: "ギャラクシティ開館記念コンサートの告知", url: "https://www.city.adachi.tokyo.jp/koho/19940215.html" }
+    ],
     images: ["special_1994-03-27_front.jpg","special_1994-03-27_back.jpg"],
     conductor: "汐澤安彦、團伊玖磨", soloist: "ピアノ：仲道郁代", tag: "special",
     program: [
@@ -1842,6 +1871,23 @@ function render() {
         </div>`;
     }
 
+
+    // あだち広報（区報）掲載記事へのリンク
+    let pressHtml = '';
+    if (c.press && c.press.length) {
+      pressHtml = `
+        <div class="press-section">
+          <p class="press-heading">あだち広報の掲載記事</p>
+          <ul class="press-list">
+            ${c.press.map(p => `<li class="press-item">
+              <span class="press-date">${escHtml(p.date.replace(/-/g, '.'))}号</span>
+              <a href="${escHtml(p.url)}" target="_blank" rel="noopener">${escHtml(p.label)}</a>
+            </li>`).join('')}
+          </ul>
+          <p class="press-note">足立区「あだち広報」デジタルアーカイブ（外部サイト）</p>
+        </div>`;
+    }
+
     // program items
     let programHtml = c.program.map(p =>
       `<li class="program-item">${escHtml(p)}</li>`
@@ -1918,6 +1964,7 @@ function render() {
             ${encoreHtml}
           </div>
           ${audioHtml}
+          ${pressHtml}
           ${posterHtml}
         </div>
       </div>

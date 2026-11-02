@@ -42,6 +42,7 @@
   }
 
   /* ===== HEADER ===== */
+  .concert-card { scroll-margin-top: var(--header-offset, 96px); }
   .site-header {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
@@ -1936,6 +1937,7 @@ function render() {
     const card = document.createElement('div');
     card.className = 'concert-card' + (c.cancelled ? ' cancelled' : '');
     card.dataset.id = c.id;
+    card.id = c.date; // ポスター帯などから #YYYY-MM-DD で直接開けるように
 
     // tags
     let tagHtml = '';
@@ -2278,6 +2280,21 @@ document.getElementById('collapseAll').addEventListener('click', () => {
 });
 
 render();
+
+// URL の #YYYY-MM-DD に対応するカードを開いてスクロールする
+function openFromHash() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(id)) return;
+  const card = document.getElementById(id);
+  if (!card) return;
+  if (!card.classList.contains('open')) {
+    card.classList.add('open');
+    card.querySelector('.card-header').setAttribute('aria-expanded', 'true');
+  }
+  requestAnimationFrame(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+}
+openFromHash();
+window.addEventListener('hashchange', openFromHash);
 </script>
 </body>
 </html>

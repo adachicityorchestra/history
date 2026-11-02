@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>歴代ポスター</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ashioke.com（Studio）などに iframe で埋め込む前提のポスター帯。
+     データは posters.json（tools/build_marquee.py で生成）。 */
+  :root {
+    --bg: transparent;
+    --text-muted: #8a877f;
+    --border: #e2dfd8;
+    --accent: #1f4e79;
+    --poster-h: 190px;
+    --gap: 18px;
+    --sec-per-poster: 3.5;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); }
+  body { font-family: 'Noto Sans JP', sans-serif; color: #1a1916; overflow: hidden; }
+
+  .band {
+    position: relative;
+    padding: 12px 0 8px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .track {
+    display: flex;
+    gap: var(--gap);
+    width: max-content;
+    padding: 0 var(--gap);
+    animation: flow var(--duration, 240s) linear infinite;
+  }
+  /* 左から右へ流れる（古い年代が左から入ってくる） */
+  @keyframes flow {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+  .band.paused .track,
+  .band:hover .track,
+  .band:focus-within .track { animation-play-state: paused; }
+
+  .poster {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+  }
+  .poster img {
+    display: block;
+    height: var(--poster-h);
+    width: auto;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    background: #f5f4f0;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .poster:hover img,
+  .poster:focus-visible img {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+  }
+  .poster:focus-visible img { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .year {
+    font-size: 12px;
+    letter-spacing: .08em;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .toggle {
+    position: absolute;
+    right: 10px;
+    bottom: 2px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.9);
+    color: #5c5a55;
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* 動きを減らす設定の人には、流さずに横スクロールで見せる */
+  @media (prefers-reduced-motion: reduce) {
+    body { overflow: auto; }
+    .band { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+    .track { animation: none; }
+    .track .dup { display: none; }
+    .toggle { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    :root { --poster-h: 150px; --gap: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="band" id="band" aria-label="足立シティオーケストラの歴代ポスター">
+  <div class="track" id="track"></div>
+  <button class="toggle" id="toggle" type="button" aria-label="停止" title="停止">❚❚</button>
+</div>
+
+<script>
+const HISTORY_URL = 'https://adachicityorchestra.github.io/history/';
+
+function item(p, dup) {
+  const a = document.createElement('a');
+  a.className = 'poster' + (dup ? ' dup' : '');
+  a.href = HISTORY_URL + '#' + p.date;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.title = `${p.date.slice(0, 4)}年 ${p.title}`;
+  if (dup) { a.tabIndex = -1; a.setAttribute('aria-hidden', 'true'); }
+  const img = document.createElement('img');
+  img.src = p.thumb;
+  img.alt = dup ? '' : `${p.title}（${p.date.slice(0, 4)}年）のポスター`;
+  img.decoding = 'async';
+  const y = document.createElement('span');
+  y.className = 'year';
+  y.textContent = p.date.slice(0, 4);
+  a.append(img, y);
+  return a;
+}
+
+fetch('posters.json')
+  .then(r => r.json())
+  .then(posters => {
+    const track = document.getElementById('track');
+    // 2周分並べて、-50% → 0 の移動でつなぎ目なくループさせる
+    posters.forEach(p => track.append(item(p, false)));
+    posters.forEach(p => track.append(item(p, true)));
+    const sec = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sec-per-poster')) || 3.5;
+    track.style.setProperty('--duration', `${Math.round(posters.length * sec)}s`);
+  });
+
+const band = document.getElementById('band');
+const toggle = document.getElementById('toggle');
+toggle.addEventListener('click', () => {
+  const paused = band.classList.toggle('paused');
+  toggle.textContent = paused ? '▶' : '❚❚';
+  toggle.setAttribute('aria-label', paused ? '再生' : '停止');
+  toggle.title = paused ? '再生' : '停止';
+});
+</script>
+</body>
+</html>

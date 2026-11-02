@@ -36,10 +36,10 @@
     padding: 0 var(--gap);
     animation: flow var(--duration, 240s) linear infinite;
   }
-  /* 左から右へ流れる（古い年代が左から入ってくる） */
+  /* 右から左へ流れる（1988年から新しい年へ進んでいく） */
   @keyframes flow {
-    from { transform: translateX(-50%); }
-    to   { transform: translateX(0); }
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
   .band.paused .track,
   .band:hover .track,
@@ -141,7 +141,7 @@ fetch('posters.json')
   .then(r => r.json())
   .then(posters => {
     const track = document.getElementById('track');
-    // 2周分並べて、-50% → 0 の移動でつなぎ目なくループさせる
+    // 2周分並べて、0 → -50% の移動でつなぎ目なくループさせる
     posters.forEach(p => track.append(item(p, false)));
     posters.forEach(p => track.append(item(p, true)));
     const sec = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sec-per-poster')) || 3.5;

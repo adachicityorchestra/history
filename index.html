@@ -1925,6 +1925,11 @@ function getSorted() {
 }
 
 // ===== RENDER =====
+// カード用の縮小版（tools/build_card_thumbs.py で生成）。無ければ元画像を表示する
+function cardThumb(src) {
+  return 'thumbs/card/' + src.replace(/\.[^.]+$/, '') + '.jpg';
+}
+
 function render() {
   const list = document.getElementById('concertList');
   const sorted = getSorted();
@@ -2022,7 +2027,7 @@ function render() {
     if (hasImages) {
       const thumbs = c.images.map(src =>
         `<div class="poster-thumb" data-src="${escHtml(src)}" role="button" tabindex="0" aria-label="ポスターを拡大表示">
-          <img src="${escHtml(src)}" alt="${escHtml(c.title)} ポスター" loading="lazy">
+          <img src="${escHtml(cardThumb(src))}" data-full="${escHtml(src)}" alt="${escHtml(c.title)} ポスター" loading="lazy">
         </div>`
       ).join('');
       posterHtml = `
@@ -2084,9 +2089,19 @@ function render() {
       card.classList.toggle('open');
       const expanded = card.classList.contains('open');
       card.querySelector('.card-header').setAttribute('aria-expanded', expanded);
+      // 開いたカードのポスターは遅延読み込みを待たずに読み込む（一部のモバイルブラウザ対策）
+      if (expanded) card.querySelectorAll('.poster-thumb img').forEach(img => { img.loading = 'eager'; });
     });
 
     // poster lightbox
+    card.querySelectorAll('.poster-thumb img').forEach(img => {
+      img.addEventListener('error', () => {
+        if (img.dataset.fallback) return;
+        img.dataset.fallback = '1';
+        img.src = img.dataset.full;
+      });
+    });
+
     card.querySelectorAll('.poster-thumb').forEach(thumb => {
       const openLightbox = () => openLightboxWith(thumb.dataset.src);
       thumb.addEventListener('click', openLightbox);
